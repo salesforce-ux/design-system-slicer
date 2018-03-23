@@ -1,0 +1,1157 @@
+{"components":  {
+    "datepickers": {
+      "description": "#### Implementation Notes and Requirements\n\nThe datepicker has the following markup requirements:\n\n**Desktop**\n- Add `.slds-is-open` to the element with `.slds-dropdown-trigger` to invoke the dropdown that contains the datepicker.\n- The `.slds-is-selected` modifier class is required on the `td` element that has the selected day.\n- The `.slds-is-today` modifier class is required on the `td` element that is the current day.\n- The `.slds-has-multi-selection` modifier class is required on the `tr` element that contains multiple days selected in the **same** week.\n- The `.slds-has-multi-row-selection` modifier class is required on any `tr` element that contains multiple days selected in the **multiple** weeks.\n- The `.slds-is-selected-multi` modifier class is required on the `td` element that contains a selected day within a range.\n\n**Mobile**\n- When on mobile, we want to leverage the native date picker by changing the `input` type from `text` to `date`\n- The `input type=\"date\"` will create an input field allowing a date and time to be easily entered — this includes year, month, day.\n- When switching `input type=\"text\"` to `input type=\"date\"` for mobile, we need to remove the ARIA attributes. The native rendering doesn't require these.\n  - On the element with the class `slds-combobox`, please remove `role=\"combobox\"`, `aria-expanded`, and `aria-haspopup`.\n  - On the `input` that we just added `type=\"date\"` to, please remove `aria-controls`, `aria-autocomplete`, and `role=\"textbox\"`.\n\n#### Accessibility\n\n**Expected Markup**\n\n##### Dialog\n\n- Should act as a focus trap so the user only cycles through the datepicker `dialog` when the datepicker is open\n\n##### Grid\n\n- Table must be labelled with `role=\"grid\"` and be appropriately labelled with `aria-labelledby`\n- Use `aria-multiselectable=\"true\"` to allow for selection of multiple days\n- Should act as a single focus stop\n\n##### Gridcell\n\n- All dates should have `role=\"gridcell\"` and `aria-selected=\"false\"` on the `gridcell` by default\n- If a date is selected, `aria-selected` should be set to `true` on the corresponding `gridcell`\n- `aria-current` is used to indicate which day is today and should be set to `aria-current=\"date\"`\n\n**Opening the Datepicker**\n\n- Mouse user: open the datepicker when a mouse user clicks on the input\n- Keyboard user: only open the datepicker when a keyboard user presses `enter` or `space` on the datepicker button\n  - Do not open the datepicker when user focus is on the input\n\n**Expected Keyboard Interactions**\n\n- When the datepicker opens, place user focus on either the currently selected date in the grid or if no date is selected the current day\n- `left` and `right` arrow keys to navigate row\n- `up` and `down` arrow keys to navigate between weeks on the same day\n- `home` and `end` keys to jump to beginning or end of current row\n- `pagedown` and `pageup` to naviate between months\n- `alt + pagedown` and `alt + pageup` to navigate between years\n- `enter` to select date and close datepicker\n- `esc` to close datepicker without choosing a date",
+      "annotations": {
+        "summary": "A datepicker is a text input to capture a date. You can select a single date, date range or date and time.",
+        "base": true,
+        "name": "datepickers",
+        "selector": ".slds-datepicker",
+        "support": "dev-ready",
+        "category": "experience",
+        "type": "data-entry",
+        "role": "grid, combobox"
+      },
+      "id": "datepickers",
+      "restrictees": [
+        {
+          "description": "",
+          "annotations": {
+            "summary": "Initiates a datepicker component",
+            "name": "base",
+            "selector": ".slds-datepicker",
+            "restrict": "div",
+            "variant": true
+          },
+          "id": "base",
+          "restrictees": [
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Style for calendar days",
+                "selector": ".slds-day",
+                "restrict": ".slds-datepicker td span"
+              },
+              "id": ".slds-day",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Indicates today",
+                "selector": ".slds-is-today",
+                "restrict": ".slds-datepicker td"
+              },
+              "id": ".slds-is-today",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Indicates selected days",
+                "selector": ".slds-is-selected",
+                "restrict": ".slds-datepicker td"
+              },
+              "id": ".slds-is-selected",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Aligns filter items horizontally",
+                "selector": ".slds-datepicker__filter",
+                "restrict": ".slds-datepicker div"
+              },
+              "id": ".slds-datepicker__filter",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Spaces out month filter",
+                "selector": ".slds-datepicker__month_filter",
+                "restrict": ".slds-datepicker div"
+              },
+              "id": ".slds-datepicker__month_filter",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Container of the month table",
+                "selector": ".slds-datepicker__month",
+                "restrict": ".slds-datepicker table"
+              },
+              "id": ".slds-datepicker__month",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Indicates days that are in previous/next months",
+                "selector": ".slds-disabled-text",
+                "restrict": ".slds-datepicker td"
+              },
+              "id": ".slds-disabled-text",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "If you desire a multi-select date range, the selected cell will need to have\n`.slds-is-selected-multi` applied to the `<td>`.\n\nIf you are selecting multiple dates within the same week, the class `slds-has-multi-selection`\nshould be added to the `<tr>`.\n\nIf you are selecting multiple dates spanning over two or more weeks, you will\nneed to add the class `.slds-has-multi-row-selection` to each `<tr>` that has\nselected dates.",
+              "annotations": {
+                "summary": "Class on row to notify that more than one date will be selected within the week",
+                "name": "range",
+                "selector": ".slds-has-multi-selection",
+                "restrict": ".slds-datepicker tr",
+                "variant": true
+              },
+              "id": "range",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": "./ui/components/datepickers/range/example.jsx",
+              "showcase": [
+                {
+                  "title": "states",
+                  "items": [
+                    {
+                      "id": "start-date",
+                      "label": "Start date selected"
+                    },
+                    {
+                      "id": "end-date-week",
+                      "label": "End date selected (Same week)"
+                    },
+                    {
+                      "id": "end-date-weeks",
+                      "label": "End date selected (Different week)"
+                    },
+                    {
+                      "id": "today-in-range",
+                      "label": "Today - In selected range"
+                    },
+                    {
+                      "id": "span-across-month-in-range",
+                      "label": "Current and adjacent month in selected range"
+                    }
+                  ]
+                },
+                {
+                  "title": "default",
+                  "items": [
+                    {
+                      "id": "default"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Class on row to notify that more than one date will be selected with multiple weeks",
+                "selector": ".slds-has-multi-row-selection",
+                "restrict": ".slds-datepicker tr"
+              },
+              "id": ".slds-has-multi-row-selection",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Indicates if the selected days are apart of a date range",
+                "selector": ".slds-is-selected-multi",
+                "restrict": ".slds-datepicker td"
+              },
+              "id": ".slds-is-selected-multi",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            }
+          ],
+          "docPath": null,
+          "showcasePath": "./ui/components/datepickers/base/example.jsx",
+          "showcase": [
+            {
+              "title": "states",
+              "items": [
+                {
+                  "id": "datepicker-day-selected",
+                  "label": "Date selected"
+                }
+              ]
+            },
+            {
+              "title": "default",
+              "items": [
+                {
+                  "id": "default"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "docPath": null,
+      "showcasePath": null,
+      "showcase": []
+    },
+  "modals": {
+      "description": "Default modals are used in the vast majority of cases. They are as wide as\n50% of the viewport, but include a minimum and maximum width to avoid going\ntoo narrow or too wide.\n\nModals always have an equal amount of space at the top and bottom to account\nfor the height of the close button.\n\nModals grow according to how much content is within, but once the modal\nreaches full height (including the previously mentioned space on top and\nbottom), the content area will begin to scroll. (This scrolling is currently\nnot available in Salesforce1 Mobile.)\n\nModals can have a tagline in the header, simply by adding a paragraph after\nthe heading.\n\nBy default, the content area of the modal does not have spacing. This allows\nfor content such as Tables to be full-width to the modal. To get spacing\nwhen you need it, apply a padding utility (`.slds-p-around_medium`).\n\nModal headers can also have taglines, if you need to provide additional\ncontext. This tagline can also contain links, or the whole thing could be a\nlink in and of itself.\n\nLarge modals call for large amounts of content. The height follows the same\nbehavior and styles of other modals. The width changes to 90% of the viewport,\nand uses a wider minimum width and no maximum width.\n\nThese are modals that require a linearly directional paradigm of navigation\n(“Next” and “Back”, etc.) — the actionable buttons in the modal footer live\non the left and right, rather than all on the right. These can either be\nwithin a large or default modal, depending on the use case.\n\n#### Accessibility\n\nModals, by definition, trap focus. This means that if a user presses Tab or\nShift+Tab while their keyboard focus is in the modal, their focus should\nstay in and cycle through the modal’s content. Focus shouldn’t return to\nthe underlying page until the user presses the Esc key, presses an explicit\n“Cancel” or “Close” button in the modal, or performs another action that\ncloses the modal.\n\n**Expected markup:**\n\n- Modal has `role=\"dialog\"`\n- When the modal is open, everything behind it has HTML attribute `aria-hidden=\"true\"`, so assistive technology won't read out the underlying page. The best way to do this is to give the modal and the page separate wrapper elements and toggle `aria-hidden=\"true\"`/`aria-hidden=\"false\"` on the main page's wrapper depending on whether or not the modal is open.\n- Modal contains an HTML heading\n- Modal has an `aria-labelledby` attribute whose value is the id of the modal’s heading\n\n**Expected keyboard interactions:**\n\n- Esc key closes the modal and moves focus to whatever triggered the modal to open\n- Tab key at bottom of modal cycles focus back to first focusable element at top of modal\n- Shift+Tab keys at top of modal cycle focus back to last focusable element at bottom of modal\n- Enter key submits modal’s form data, if applicable",
+      "annotations": {
+        "summary": "Modals are used to display content in a layer above the app. This paradigm is used in cases such as the creation or editing of a record, as well as various types of messaging and wizards.",
+        "layout": "adaptive",
+        "name": "modals",
+        "support": "dev-ready",
+        "base": true,
+        "role": "modal-dialog",
+        "scroller": true,
+        "type": "layout",
+        "category": "structure",
+        "s1": "false",
+        "selector": ".slds-modal"
+      },
+      "id": "modals",
+      "restrictees": [
+        {
+          "description": "",
+          "annotations": {
+            "name": "base",
+            "selector": ".slds-modal",
+            "restrict": "section",
+            "variant": true
+          },
+          "id": "base",
+          "restrictees": [
+            {
+              "description": "Centers and sizes the modal horizontally and confines modal within viewport height",
+              "annotations": {
+                "selector": ".slds-modal__container",
+                "restrict": ".slds-modal div",
+                "notes": "This should be nested immediately inside `.slds-modal` with nothing else nested on the same level.",
+                "required": true
+              },
+              "id": ".slds-modal__container",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates the Modal Header container.",
+              "annotations": {
+                "selector": ".slds-modal__header",
+                "restrict": ".slds-modal header",
+                "notes": "This should be nested immediately inside `.slds-modal__container` as the first element.",
+                "required": true
+              },
+              "id": ".slds-modal__header",
+              "restrictees": [
+                {
+                  "description": "Use when modal header has no content",
+                  "annotations": {
+                    "selector": ".slds-modal__header_empty",
+                    "restrict": ".slds-modal__header"
+                  },
+                  "id": ".slds-modal__header_empty",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                }
+              ],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates the scrollable content area for the modal.",
+              "annotations": {
+                "selector": ".slds-modal__content",
+                "restrict": ".slds-modal div",
+                "required": true
+              },
+              "id": ".slds-modal__content",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates the shaded menu area for the modal.",
+              "annotations": {
+                "selector": ".slds-modal__menu",
+                "restrict": ".slds-modal div",
+                "notes": "Either `.slds-modal__menu` or `.slds-modal__content` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__header`.",
+                "required": true
+              },
+              "id": ".slds-modal__menu",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates the Modal Footer container.",
+              "annotations": {
+                "selector": ".slds-modal__footer",
+                "restrict": ".slds-modal footer",
+                "notes": "This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__container`. Nothing should follow it. Note that by default, elements will be aligned to the right.",
+                "required": true
+              },
+              "id": ".slds-modal__footer",
+              "restrictees": [
+                {
+                  "description": "Makes buttons inside the footer spread to both left and right.",
+                  "annotations": {
+                    "selector": ".slds-modal__footer_directional",
+                    "restrict": ".slds-modal__footer",
+                    "notes": "This is only needed when you have two buttons that indicate a back and forward navigation.",
+                    "modifier": true,
+                    "group": "direction"
+                  },
+                  "id": ".slds-modal__footer_directional",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                }
+              ],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Positions the close button to the top right outside of the modal.",
+              "annotations": {
+                "selector": ".slds-modal__close",
+                "restrict": ".slds-modal button",
+                "notes": "Either `.slds-modal__content` or `.slds-modal__menu` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__header`.",
+                "required": true
+              },
+              "id": ".slds-modal__close",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Widens the modal to take more horizontal space",
+              "annotations": {
+                "selector": ".slds-modal_medium",
+                "restrict": ".slds-modal",
+                "modifier": true,
+                "group": "size"
+              },
+              "id": ".slds-modal_medium",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Widens the modal to take more horizontal space",
+              "annotations": {
+                "selector": ".slds-modal_large",
+                "restrict": ".slds-modal",
+                "modifier": true,
+                "group": "size"
+              },
+              "id": ".slds-modal_large",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Allows the modal to be visible.",
+              "annotations": {
+                "selector": ".slds-fade-in-open",
+                "restrict": ".slds-modal",
+                "notes": "Apply this class to a modal with JavaScript to make it visible.",
+                "modifier": true,
+                "group": "animation"
+              },
+              "id": ".slds-fade-in-open",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "selector": ".slds-slide-up-open",
+                "restrict": ".slds-modal",
+                "modifier": true,
+                "group": "animation"
+              },
+              "id": ".slds-slide-up-open",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "selector": ".slds-slide-up-saving",
+                "restrict": ".slds-modal",
+                "modifier": true,
+                "group": "animation"
+              },
+              "id": ".slds-slide-up-saving",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "selector": ".slds-slide-down-cancel",
+                "restrict": ".slds-modal",
+                "modifier": true,
+                "group": "animation"
+              },
+              "id": ".slds-slide-down-cancel",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Initializes Prompt style notification",
+                "name": "base",
+                "selector": ".slds-modal_prompt",
+                "restrict": ".slds-modal",
+                "required": true,
+                "variant": true
+              },
+              "id": "base",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": "./ui/components/modals/base/example.jsx",
+              "showcase": [
+                {
+                  "title": "examples",
+                  "items": [
+                    {
+                      "id": "taglines",
+                      "label": "Taglines"
+                    },
+                    {
+                      "id": "headless",
+                      "label": "Header empty"
+                    },
+                    {
+                      "id": "footless",
+                      "label": "Footer removed"
+                    }
+                  ]
+                },
+                {
+                  "title": "default",
+                  "items": [
+                    {
+                      "id": "default"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "description": "Creates the shaded backdrop used behind the modal.",
+              "annotations": {
+                "selector": ".slds-backdrop",
+                "restrict": ".slds-modal ~ div",
+                "notes": "This should follow after the `.slds-modal` as an empty element.",
+                "required": true
+              },
+              "id": ".slds-backdrop",
+              "restrictees": [
+                {
+                  "description": "Allows the backdrop to be visible.",
+                  "annotations": {
+                    "selector": ".slds-backdrop_open",
+                    "restrict": ".slds-backdrop",
+                    "notes": "Apply this class to a modal backdrop with JavaScript to make it visible.",
+                    "modifier": true,
+                    "required": true
+                  },
+                  "id": ".slds-backdrop_open",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                }
+              ],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            }
+          ],
+          "docPath": null,
+          "showcasePath": "./ui/components/modals/base/example.jsx",
+          "showcase": [
+            {
+              "title": "examples",
+              "items": [
+                {
+                  "id": "taglines",
+                  "label": "Taglines"
+                },
+                {
+                  "id": "headless",
+                  "label": "Header empty"
+                },
+                {
+                  "id": "footless",
+                  "label": "Footer removed"
+                }
+              ]
+            },
+            {
+              "title": "default",
+              "items": [
+                {
+                  "id": "default"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "docPath": null,
+      "showcasePath": null,
+      "showcase": []
+    }, 
+    "buttons": {
+      "description": "Create a button with a `button` or `a` element to retain the native click\nfunction.\n\nUse a disabled attribute when a button can’t be clicked.",
+      "annotations": {
+        "summary": "Buttons are used to invoke an event",
+        "layout": "responsive",
+        "name": "buttons",
+        "support": "dev-ready",
+        "base": true,
+        "role": "button",
+        "type": "action",
+        "category": "base",
+        "selector": ".slds-button, .slds-button_stateful"
+      },
+      "id": "buttons",
+      "restrictees": [
+        {
+          "description": "The base `.slds-button` looks like a plain text link. It removes all the\nstyling of the native button. It’s typically used to trigger a modal or\ndisplay a “like” link. All button variations are built by adding another\nclass to `.slds-button`.\n\nAdd the `.slds-button_neutral` class to create a neutral button, which\nhas a white background and gray border.\n\nUse a neutral icon button is for buttons with an icon on the left or\nright (not for stateful buttons). Add the `.slds-button_neutral` class\nto `.slds-button`.\n\nThe SVG inside receives the `.slds-button__icon` class. You can position\nthe icon on the right or the left using `.slds-button__icon_right` or\n`.slds-button__icon_left` , which apply the correct amount of space\nbetween the icon and the text.\n\nTo create the brand button, add the `.slds-button_brand` class to\nthe `.slds-button` class.\n\nTo create the destructive button, add the `.slds-button_destructive`\nclass to the `.slds-button` class.\n\nUse the inverse button on dark backgrounds. Add the `.slds-button_inverse`\nclass to the `.slds-button` class.",
+          "annotations": {
+            "summary": "This neutralizes all the base styles making it look like a text link",
+            "name": "base",
+            "selector": ".slds-button",
+            "restrict": "button, a, span",
+            "variant": true
+          },
+          "id": "base",
+          "restrictees": [
+            {
+              "description": "Creates the gray border with white background default style",
+              "annotations": {
+                "selector": ".slds-button_neutral",
+                "restrict": ".slds-button",
+                "modifier": true,
+                "group": "theme"
+              },
+              "id": ".slds-button_neutral",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates the brand blue Salesforce style",
+              "annotations": {
+                "selector": ".slds-button_brand",
+                "restrict": ".slds-button",
+                "modifier": true,
+                "group": "theme"
+              },
+              "id": ".slds-button_brand",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates the inverse style for dark backgrounds",
+              "annotations": {
+                "selector": ".slds-button_inverse",
+                "restrict": ".slds-button",
+                "modifier": true,
+                "group": "theme"
+              },
+              "id": ".slds-button_inverse",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates a red button style",
+              "annotations": {
+                "selector": ".slds-button_destructive",
+                "restrict": ".slds-button",
+                "group": "theme",
+                "modifier": true
+              },
+              "id": ".slds-button_destructive",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates a green button style",
+              "annotations": {
+                "selector": ".slds-button_success",
+                "restrict": ".slds-button",
+                "group": "theme",
+                "modifier": true
+              },
+              "id": ".slds-button_success",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "Creates a smaller button style",
+              "annotations": {
+                "selector": ".slds-button_small",
+                "restrict": ".slds-button",
+                "deprecated": true
+              },
+              "id": ".slds-button_small",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "",
+              "annotations": {
+                "summary": "Sizing for icon that sits inside button__icon",
+                "selector": ".slds-button__icon",
+                "restrict": ".slds-button svg"
+              },
+              "id": ".slds-button__icon",
+              "restrictees": [
+                {
+                  "description": "",
+                  "annotations": {
+                    "summary": "Large size button icon svg",
+                    "selector": ".slds-button__icon_large",
+                    "restrict": ".slds-button__icon"
+                  },
+                  "id": ".slds-button__icon_large",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                },
+                {
+                  "description": "",
+                  "annotations": {
+                    "summary": "Small size button icon svg",
+                    "selector": ".slds-button__icon_small",
+                    "restrict": ".slds-button__icon"
+                  },
+                  "id": ".slds-button__icon_small",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                },
+                {
+                  "description": "",
+                  "annotations": {
+                    "summary": "x-small size button icon svg",
+                    "selector": ".slds-button__icon_x-small",
+                    "restrict": ".slds-button__icon"
+                  },
+                  "id": ".slds-button__icon_x-small",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                },
+                {
+                  "description": "",
+                  "annotations": {
+                    "summary": "Position of icon when sitting to the left side of the text when inside a button",
+                    "selector": ".slds-button__icon_left",
+                    "restrict": ".slds-button__icon, .slds-button__icon_stateful"
+                  },
+                  "id": ".slds-button__icon_left",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                },
+                {
+                  "description": "",
+                  "annotations": {
+                    "summary": "Position of icon when sitting to the right side of the text when inside a button",
+                    "selector": ".slds-button__icon_right",
+                    "restrict": ".slds-button__icon, .slds-button__icon_stateful"
+                  },
+                  "id": ".slds-button__icon_right",
+                  "restrictees": [],
+                  "docPath": null,
+                  "showcasePath": null,
+                  "showcase": []
+                }
+              ],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            }
+          ],
+          "docPath": null,
+          "showcasePath": "./ui/components/buttons/base/example.jsx",
+          "showcase": [
+            {
+              "title": "states",
+              "items": [
+                {
+                  "id": "disabled",
+                  "label": "Disabled"
+                }
+              ]
+            },
+            {
+              "title": "examples",
+              "items": [
+                {
+                  "id": "with-icon-left",
+                  "label": "With left icon"
+                },
+                {
+                  "id": "with-icon-right",
+                  "label": "With right icon"
+                }
+              ]
+            },
+            {
+              "title": "default",
+              "items": [
+                {
+                  "id": "default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "description": "The stateful button requires the `.slds-button--neutral` class in addition to the `.slds-button` class.\n\nThe stateful inverse button works just like the stateful button. It requires the `.slds-button--inverse` class in addition to the `.slds-button` class.\n\nIt uses the class `.slds-not-selected` in its initial state. When the user activates the button, use JavaScript to toggle the class to `.slds-is-selected`. The button contains three spans with classes that hide or show the content of the spans based on the class on the button. Each span contains text and a corresponding icon. The SVG will have the `.slds-button__icon--stateful` class as well as the `.slds-button__icon--left` class setting the icon on the left.\n\nStateful icons can be toggled on and off and retain their state. Like stateful buttons, the initial state is `.slds-not-selected`, and JavaScript is used to toggle it to `.slds-is-selected` when activated.\n\n#### Accessibility\n\nFor accessibility, include the attribute `aria-live=\"assertive\"` on the button. The `aria-live=\"assertive\"` attribute means the value of the `<span>` inside the button will be spoken whenever it changes.",
+          "annotations": {
+            "summary": "Initiates a stateful button",
+            "name": "stateful",
+            "selector": ".slds-button_stateful",
+            "restrict": "button, a, span",
+            "variant": true
+          },
+          "id": "stateful",
+          "restrictees": [
+            {
+              "description": "Default state of a stateful button",
+              "annotations": {
+                "selector": ".slds-not-selected",
+                "restrict": ".slds-button_stateful",
+                "notes": "This class should be toggled with JavaScript",
+                "modifier": true,
+                "group": "interaction"
+              },
+              "id": ".slds-not-selected",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "When button is selected and still has focus from click",
+              "annotations": {
+                "selector": ".slds-is-selected-clicked",
+                "restrict": ".slds-button_stateful",
+                "notes": "This class should be toggled with JavaScript",
+                "modifier": true,
+                "group": "interaction"
+              },
+              "id": ".slds-is-selected-clicked",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            },
+            {
+              "description": "When button is pressed and selected",
+              "annotations": {
+                "selector": ".slds-is-selected",
+                "restrict": ".slds-button_stateful",
+                "notes": "This class should be toggled with JavaScript",
+                "modifier": true,
+                "group": "interaction"
+              },
+              "id": ".slds-is-selected",
+              "restrictees": [],
+              "docPath": null,
+              "showcasePath": null,
+              "showcase": []
+            }
+          ],
+          "docPath": null,
+          "showcasePath": "./ui/components/buttons/stateful/example.jsx",
+          "showcase": [
+            {
+              "title": "default",
+              "items": [
+                {
+                  "id": "default"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "docPath": null,
+      "showcasePath": null,
+      "showcase": []
+    }
+  },
+"utilities": {
+  "interactions": {
+    "description": "",
+    "annotations": {
+      "summary": "Set of utilities that provide interaction(s).",
+      "utility": true,
+      "name": "interactions",
+      "selector": "[class*='slds-text-link']",
+      "support": "dev-ready"
+    },
+    "id": "interactions",
+    "restrictees": [
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Makes links and buttons appear as regular text",
+          "selector": ".slds-text-link_reset",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-text-link_reset",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "Used in combination with `.slds-text-link--reset`, you can apply the class `.slds-text-link` to a child element to reset its styles back to that of a link.",
+        "annotations": {
+          "summary": "Makes text inside of .slds-text-link_reset to appear as a link.",
+          "selector": ".slds-text-link",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-text-link",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "Faux links are used on areas that can't be wrapped in an `a` element, but need to appear to be a link with an underline on hover. An example is in the page header for Object home. The `H1` and `button` that sit next to each other have the `.slds-text-link--faux` class on their parent element.",
+        "annotations": {
+          "summary": "Creates a faux link with hover interactions",
+          "selector": ".slds-text-link_faux",
+          "notes": "This is used when an actual anchor element can not be used. For example &mdash; when a heading and button are next to each other and both need the text underline",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-text-link_faux",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      }
+    ],
+    "docPath": null,
+    "showcasePath": "./ui/utilities/interactions/example.jsx",
+    "showcase": [
+      {
+        "title": "examples",
+        "items": [
+          {
+            "id": "reset",
+            "label": "Link reset"
+          },
+          {
+            "id": "link",
+            "label": "Link reset with text link inside"
+          },
+          {
+            "id": "halo-focus",
+            "label": "Link reset with halo focus"
+          },
+          {
+            "id": "button-reset",
+            "label": "Button reset"
+          },
+          {
+            "id": "faux",
+            "label": "Faux Link on a span"
+          }
+        ]
+      }
+    ]
+  },
+  "truncation": {
+    "description": "If problems occur when using truncation with elements that use flexbox, you might need to add the `.slds-has-flexi-truncate` class on the flexbox child node ( `.slds-col` or `.slds-col_padded` elements) that contains the truncated text.\n\n**Note:** There is an iOS bug that is triggered when you add a component from Visualforce into S1 using an iFrame. The truncated element does not recognize its width.",
+    "annotations": {
+      "summary": "When applying truncation, place the full text in a title attribute so that it’s accessible on&nbsp;hover.",
+      "utility": true,
+      "name": "truncation",
+      "selector": "[class*='truncate']",
+      "support": "dev-ready",
+      "s1": "false"
+    },
+    "id": "truncation",
+    "restrictees": [
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Needed when truncation is nested in a flexible container in a grid",
+          "selector": ".slds-has-flexi-truncate",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-has-flexi-truncate",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Truncates text at 25% of its parent container",
+          "selector": ".slds-truncate_container_25",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-truncate_container_25",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Truncates text at 50% of its parent container",
+          "selector": ".slds-truncate_container_50",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-truncate_container_50",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Truncates text at 75% of its parent container",
+          "selector": ".slds-truncate_container_75",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-truncate_container_75",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Truncates text at 33% of its parent container",
+          "selector": ".slds-truncate_container_33",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-truncate_container_33",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      },
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Truncates text at 66% of its parent container",
+          "selector": ".slds-truncate_container_66",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-truncate_container_66",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      }
+    ],
+    "docPath": null,
+    "showcasePath": "./ui/utilities/truncation/example.jsx",
+    "showcase": [
+      {
+        "title": "examples",
+        "items": [
+          {
+            "id": "fluid",
+            "label": "Single line"
+          },
+          {
+            "id": "nested-grids",
+            "label": "Single line within nested grid containers"
+          },
+          {
+            "id": "25%",
+            "label": "Max-width 25%"
+          },
+          {
+            "id": "33%",
+            "label": "Max-width 33%"
+          },
+          {
+            "id": "50%",
+            "label": "Max-width 50%"
+          },
+          {
+            "id": "66%",
+            "label": "Max-width 66%"
+          },
+          {
+            "id": "75%",
+            "label": "Max-width 75%"
+          }
+        ]
+      }
+    ]
+  },
+  "hyphenation": {
+    "description": "This will allow the text to break, or hyphenate, depending on the browser's capabilities. Chrome currently doesn't show the hyphenation, but the bug is currently marked fixed, so it should soon.",
+    "annotations": {
+      "summary": "The hyphenation class should be placed on text that might be served in narrow width containers and is not truncated.",
+      "utility": true,
+      "name": "hyphenation",
+      "selector": ".slds-hyphenate",
+      "support": "dev-ready"
+    },
+    "id": "hyphenation",
+    "restrictees": [
+      {
+        "description": "The truncation class can be used on an element, or the truncation include can be added to an existing class.",
+        "annotations": {
+          "summary": "Creates hyphenated text",
+          "selector": ".slds-hyphenate",
+          "notes": "Hyphenation will occur at the parent width if a width is not specified",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": ".slds-hyphenate",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      }
+    ],
+    "docPath": null,
+    "showcasePath": "./ui/utilities/hyphenation/example.jsx",
+    "showcase": [
+      {
+        "title": "examples",
+        "items": [
+          {
+            "id": "default",
+            "label": "Hyphenate"
+          }
+        ]
+      }
+    ]
+  },
+  "alignment": {
+    "description": "",
+    "annotations": {
+      "summary": "Alignment utilities will assist with general alignment problems",
+      "utility": true,
+      "name": "alignment",
+      "selector": "[class*='slds-align_']",
+      "support": "dev-ready"
+    },
+    "id": "alignment",
+    "restrictees": [
+      {
+        "description": "",
+        "annotations": {
+          "summary": "Class will absolutely center children content",
+          "name": "absolute-center",
+          "selector": ".slds-align_absolute-center",
+          "modifier": true,
+          "restrict": "*"
+        },
+        "id": "absolute-center",
+        "docPath": null,
+        "showcasePath": null,
+        "showcase": [],
+        "restrictees": []
+      }
+    ],
+    "docPath": null,
+    "showcasePath": "./ui/utilities/alignment/example.jsx",
+    "showcase": [
+      {
+        "title": "examples",
+        "items": [
+          {
+            "id": "absolute-center",
+            "label": "Absolute center"
+          }
+        ]
+      }
+    ]
+  }
+}
+}
