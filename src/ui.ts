@@ -11,11 +11,11 @@ export interface UI {
 }
 
 export interface UINode {
-  annotions: UINodeAnnotions;
+  annotations: UINodeAnnotations;
   restrictees?: UINode[];
 }
 
-export interface UINodeAnnotions {
+export interface UINodeAnnotations {
   selector: string;
 }
 

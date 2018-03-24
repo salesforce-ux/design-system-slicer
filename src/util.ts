@@ -4,7 +4,7 @@
 import { UI, UINode, toList } from './ui';
 
 export function findBySelector(node: UINode, selector: string): UINode[] {
-  return toList(node).filter(n => n.annotions.selector === selector);
+  return toList(node).filter(n => n.annotations.selector === selector);
 }
 
 export function allUtilities(ui: UI): Array<UINode> {
@@ -20,5 +20,5 @@ export function componentsForSelector(ui: UI, selector: string): UINode[] {
 }
 
 export function allSelectorsForComponent(node: UINode): string[] {
-  return node.annotions.selector.split(',').map(s => s.trim());
+  return node.annotations.selector.split(',').map(s => s.trim());
 }
