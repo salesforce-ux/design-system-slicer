@@ -12,11 +12,12 @@ export interface UI {
 
 export interface UINode {
   annotations: UINodeAnnotations;
-  restrictees?: UINode[];
+  restrictees: UINode[];
 }
 
 export interface UINodeAnnotations {
   selector: string;
+  restrict: string;
 }
 
 export function reduceNode<T>(
@@ -24,8 +25,7 @@ export function reduceNode<T>(
   empty: T,
   node: UINode
 ): T {
-  let restrictees = node.restrictees || [];
-  return restrictees.reduce(
+  return node.restrictees.reduce(
     (result, n) => reduceNode(reducer, result, n),
     reducer(empty, node)
   );
@@ -36,9 +36,8 @@ export function reduceNodeRight<T>(
   empty: T,
   node: UINode
 ): T {
-  let restrictees = node.restrictees || [];
   return reducer(
-    restrictees.reduceRight(
+    node.restrictees.reduceRight(
       (result, n) => reduceNodeRight(reducer, result, n),
       empty
     ),

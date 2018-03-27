@@ -4,7 +4,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import * as Slicer from '../src';
+import { create as createSlicer } from '../src/slicer';
 import { create as createCache, Cache } from '../src/cache';
 
 // ui.json
@@ -28,6 +28,7 @@ const css = fs
 
 let cache: Cache;
 
+// @ts-ignore
 beforeEach(async () => {
   cache = await createCache(
     {
@@ -39,8 +40,8 @@ beforeEach(async () => {
 });
 
 it('buttons slice', () => {
-  const slicer = Slicer.create(cache);
-  const result = slicer.getSliceForComponents('buttons');
+  const slicer = createSlicer(cache);
+  const result = slicer.sliceForComponents('buttons');
 
   expect(result).toMatch('.slds-button');
   expect(result).not.toMatch('.slds-datepicker');
@@ -48,8 +49,8 @@ it('buttons slice', () => {
 });
 
 it('date-picker slice', () => {
-  const slicer = Slicer.create(cache);
-  const result = slicer.getSliceForComponents('datepickers');
+  const slicer = createSlicer(cache);
+  const result = slicer.sliceForComponents('datepickers');
 
   expect(result).toMatch('.slds-datepicker');
   expect(result).not.toMatch('.slds-button');
