@@ -18,7 +18,7 @@
   },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist; ts-node --module es6 tools/build-cache",
     "build":
       "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "start": "rollup -c rollup.config.ts -w",
@@ -62,7 +62,11 @@
     },
     "collectCoverage": true
   },
+  "peerDependencies": {
+    "@salesforce-ux/design-system": "^2.5.2"
+  },
   "devDependencies": {
+    "@salesforce-ux/design-system": "^2.5.2",
     "@types/jest": "^22.0.0",
     "@types/node": "^9.3.0",
     "colors": "^1.1.2",
@@ -70,6 +74,7 @@
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.1",
     "cz-conventional-changelog": "^2.0.0",
+    "fs-extra": "^5.0.0",
     "husky": "^0.14.0",
     "immutable": "^4.0.0-rc.9",
     "immutable-ext": "^1.1.5",

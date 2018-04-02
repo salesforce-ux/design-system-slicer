@@ -16,6 +16,7 @@ export interface UINode {
 }
 
 export interface UINodeAnnotations {
+  name: string;
   selector: string;
   restrict: string;
 }

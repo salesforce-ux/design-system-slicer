@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-import cache from '../dist/cache.json';
+import cache from '../build/cache.json';
 
 import { Cache } from './cache';
 import { Slicer, create } from './slicer';

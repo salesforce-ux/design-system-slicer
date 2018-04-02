@@ -16,10 +16,13 @@ export class Util {
   constructor(ui: UI) {
     this.ui = ui;
   }
-  allUtilities(): Array<UINode> {
+  utilities(): Array<UINode> {
     return Object.keys(this.ui.utilities)
       .map(key => this.ui.utilities[key])
       .reduce<UINode[]>((result, node) => result.concat(toList(node)), []);
+  }
+  components(): Array<UINode> {
+    return Object.keys(this.ui.components).map(key => this.ui.components[key]);
   }
   componentsForSelector(selector: string): string[] {
     return Object.keys(this.ui.components).filter(
