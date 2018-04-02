@@ -27,7 +27,7 @@ export type Cache = CacheItem[];
 
 export interface CacheItem {
   name: string;
-  rules: PostCssRule[];
+  css: string;
 }
 
 function fromNullable<T>(value?: T): Immutable.List<T> {
@@ -82,7 +82,8 @@ function build(lookup: ComponentLookup, css: string): Promise<Cache> {
       });
   }).then(() => {
     return result.reduce<Cache>(
-      (cache, rules, name) => cache.concat({ name, rules: rules.toArray() }),
+      (cache, rules, name) =>
+        cache.concat({ name, css: rules.map(r => r.toString()).join('\n') }),
       []
     );
   });

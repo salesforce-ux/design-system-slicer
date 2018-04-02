@@ -1,19 +1,17 @@
 # Slicer
 
 ```js
-import slicer, {
-  util as slicerUtil
-} from '@salesforce-ux/design-system-slicer';
+import { slicer, util } from '@salesforce-ux/design-system-slicer';
 
 let selectors = ['.slds-date_day', '.slds-button_neutral', '.slds-is-active'];
 
-let components = selectors.map(slicerUtil.componentsForSelector);
+let components = selectors.map(util.componentsForSelector);
 // => [['date-picker'], ['buttons'], ['date-picker', 'popover']]
 
-let componentsFiltered = slicerUtil.filterUnusedComponents(components);
+let componentsFiltered = util.filterUnusedComponents(components);
 // => ['data-picker', 'buttons']
 
-let rootSelectors = componentsFiltered.map(slicerUtil.rootSelectors);
+let rootSelectors = componentsFiltered.map(util.rootSelectors);
 // => [['.slds-date-picker'], ['.slds-button', '.slds-button_neutral']]
 
 let css = slicer.normalize();

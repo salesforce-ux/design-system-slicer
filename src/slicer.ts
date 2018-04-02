@@ -8,10 +8,7 @@ export type Css = string;
 export function sliceForComponents(cache: Cache, ...components: string[]): Css {
   return cache
     .filter(slice => components.includes(slice.name))
-    .reduce(
-      (css, slice) => css + slice.rules.map(r => r.toString()).join('\n'),
-      ''
-    );
+    .reduce((css, slice) => css + slice.css, '');
 }
 
 export class Slicer {
