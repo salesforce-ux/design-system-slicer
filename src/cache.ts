@@ -63,23 +63,46 @@ function findRootSelector(
   );
 }
 
-function build(lookup: ComponentLookup, css: string): Promise<Cache> {
+function build(
+  lookup: ComponentLookup,
+  utilities: Immutable.Set<Selector>,
+  css: string
+): Promise<Cache> {
   let result: Immutable.OrderedMap<
     ComponentName,
     Immutable.List<PostCssRule>
   > = Immutable.OrderedMap();
   let rootSelectors = Immutable.List(lookup.keys());
+  let firstSelectorFound: boolean = false;
   return walkCss(css, rule => {
-    findRootSelector(rootSelectors, rule.selector)
-      .map(key => lookup.get(key))
-      .map(componentName => {
-        result = result.update(<string>componentName, maybeRules => {
-          let rules = maybeRules
-            ? (maybeRules as Immutable.List<PostCssRule>)
-            : Immutable.List();
-          return rules.push(rule);
+    const foundUtil: Selector | undefined = utilities.find(u =>
+      rule.selector.includes(u)
+    );
+    if (foundUtil) {
+      return (result = result.set(foundUtil, Immutable.List.of(rule)));
+    }
+    if (!firstSelectorFound) {
+      firstSelectorFound = /^\./.test(rule.selector);
+    }
+    if (firstSelectorFound) {
+      findRootSelector(rootSelectors, rule.selector)
+        .map(key => lookup.get(key))
+        .map(componentName => {
+          result = result.update(<string>componentName, maybeRules => {
+            let rules = maybeRules
+              ? (maybeRules as Immutable.List<PostCssRule>)
+              : Immutable.List();
+            return rules.push(rule);
+          });
         });
+    } else {
+      result = result.update('normalize', maybeRules => {
+        let rules = maybeRules
+          ? (maybeRules as Immutable.List<PostCssRule>)
+          : Immutable.List();
+        return rules.push(rule);
       });
+    }
   }).then(() => {
     return result.reduce<Cache>(
       (cache, rules, name) =>
@@ -100,10 +123,11 @@ function flip<T, U>(
 
 export function create(
   rootSelectors: RootSelectors,
+  utilities: string[],
   css: string
 ): Promise<Cache> {
   return Promise.resolve(rootSelectors)
     .then(Immutable.fromJS)
     .then(rootSelectors => flip<string, string>(rootSelectors))
-    .then(lookup => build(lookup, css));
+    .then(lookup => build(lookup, Immutable.Set(utilities), css));
 }

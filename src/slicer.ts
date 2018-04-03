@@ -5,9 +5,9 @@ import { Cache } from './cache';
 
 export type Css = string;
 
-export function sliceForComponents(cache: Cache, ...components: string[]): Css {
+export function sliceFor(cache: Cache, ...keys: string[]): Css {
   return cache
-    .filter(slice => components.includes(slice.name))
+    .filter(slice => keys.includes(slice.name))
     .reduce((css, slice) => css + slice.css, '');
 }
 
@@ -16,8 +16,15 @@ export class Slicer {
   constructor(cache: Cache) {
     this.cache = cache;
   }
-  sliceForComponents(...components: string[]): Css {
-    return sliceForComponents(this.cache, ...components);
+  sliceForComponents(...names: string[]): Css {
+    return sliceFor(this.cache, ...names);
+  }
+  normalize(): Css {
+    return this.cache[0].css;
+  }
+
+  utils(...selectors: string[]): Css {
+    return sliceFor(this.cache, ...selectors);
   }
 }
 
