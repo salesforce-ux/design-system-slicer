@@ -13,13 +13,17 @@ export function findBySelector(node: UINode, selector: string): UINode[] {
 
 export class Util {
   private ui: UI;
+  private _utils: Array<UINode> | undefined;
   constructor(ui: UI) {
     this.ui = ui;
   }
   utilities(): Array<UINode> {
-    return Object.keys(this.ui.utilities)
-      .map(key => this.ui.utilities[key])
-      .reduce<UINode[]>((result, node) => result.concat(toList(node)), []);
+    return (
+      this._utils ||
+      (this._utils = Object.keys(this.ui.utilities)
+        .map(key => this.ui.utilities[key])
+        .reduce<UINode[]>((result, node) => result.concat(toList(node)), []))
+    );
   }
   components(): Array<UINode> {
     return Object.keys(this.ui.components).map(key => this.ui.components[key]);
@@ -48,6 +52,11 @@ export class Util {
           .filter(x => x)
       )
       .reduce((a, b) => a.concat(b), selectors);
+  }
+  isUtility(selector: string): boolean {
+    return !!this.utilities().filter(
+      n => n.annotations.selector === selector
+    )[0];
   }
 }
 

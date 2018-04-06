@@ -1,3 +1,7 @@
+# Build
+
+`npm run build`
+
 # Slicer
 
 ```js

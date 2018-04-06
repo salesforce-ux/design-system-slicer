@@ -16,6 +16,11 @@ it("componentsForSelector", () => {
   ]);
 });
 
+it("isUtility", () => {
+  expect(slicerUtil.isUtility(".slds-button")).toEqual(false);
+  expect(slicerUtil.isUtility(".slds-truncate_container_66")).toEqual(true);
+});
+
 it("components", () => {
   expect(slicerUtil.components().map(c => c.annotations.name)).toEqual([
     "datepickers",

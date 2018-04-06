@@ -12,6 +12,17 @@ export type ComponentName = string;
 
 export type Selector = string;
 
+type ReducingFn<S = any> = (state: S, value: any) => S;
+
+type Semigroup<S = any> = (x: S) => S;
+
+type Reducer = { run: ReducingFn; concat: Semigroup<Reducer> };
+
+type CacheBuildState = {
+  result: Immutable.OrderedMap<ComponentName, Immutable.List<PostCssRule>>;
+  firstSelectorFound: boolean;
+};
+
 export type ComponentLookup = Immutable.Map<Selector, ComponentName>;
 
 export type RootSelectorsMap = Immutable.Map<
@@ -36,8 +47,8 @@ function fromNullable<T>(value?: T): Immutable.List<T> {
 
 function visitorPlugin(visitor: (rule: PostCssRule) => void) {
   return (root: PostCssRoot, result?: PostCssResult): void => {
-    root.walkAtRules(r => r.remove());
-    root.walkComments(c => c.remove());
+    // root.walkAtRules(r => r.remove());
+    // root.walkComments(c => c.remove());
     root.walkRules(r => visitor(r));
   };
 }
@@ -63,53 +74,100 @@ function findRootSelector(
   );
 }
 
-function build(
-  lookup: ComponentLookup,
-  utilities: Immutable.Set<Selector>,
-  css: string
-): Promise<Cache> {
-  let result: Immutable.OrderedMap<
-    ComponentName,
-    Immutable.List<PostCssRule>
-  > = Immutable.OrderedMap();
-  let rootSelectors = Immutable.List(lookup.keys());
-  let firstSelectorFound: boolean = false;
-  return walkCss(css, rule => {
-    const foundUtil: Selector | undefined = utilities.find(u =>
-      rule.selector.includes(u)
-    );
-    if (foundUtil) {
-      return (result = result.set(foundUtil, Immutable.List.of(rule)));
-    }
-    if (!firstSelectorFound) {
-      firstSelectorFound = /^\./.test(rule.selector);
-    }
-    if (firstSelectorFound) {
-      findRootSelector(rootSelectors, rule.selector)
-        .map(key => lookup.get(key))
-        .map(componentName => {
-          result = result.update(<string>componentName, maybeRules => {
+function allRules(css: string): Immutable.List<PostCssRule> {
+  const acc: PostCssRule[] = [];
+  walkCss(css, rule => acc.push(rule));
+  return Immutable.List(acc);
+}
+
+const reducer = (run: ReducingFn): Reducer => ({
+  run,
+  concat: other => reducer((acc, rule) => other.run(run(acc, rule), rule))
+});
+
+const setFirstSelectorReducer: Reducer = reducer(
+  (acc, rule) =>
+    acc.get('firstSelectorFound')
+      ? acc
+      : acc.set('firstSelectorFound', /^\./.test(rule.selector))
+);
+
+const normalizeReducer: Reducer = reducer(
+  (acc, rule) =>
+    !acc.get('firstSelectorFound')
+      ? acc.updateIn(
+          ['result', 'normalize'],
+          (maybeRules: Immutable.List<PostCssRule> | undefined) => {
             let rules = maybeRules
               ? (maybeRules as Immutable.List<PostCssRule>)
               : Immutable.List();
             return rules.push(rule);
-          });
-        });
-    } else {
-      result = result.update('normalize', maybeRules => {
-        let rules = maybeRules
-          ? (maybeRules as Immutable.List<PostCssRule>)
-          : Immutable.List();
-        return rules.push(rule);
-      });
-    }
-  }).then(() => {
-    return result.reduce<Cache>(
-      (cache, rules, name) =>
-        cache.concat({ name, css: rules.map(r => r.toString()).join('\n') }),
-      []
+          }
+        )
+      : acc
+);
+
+function utilReducer(utilities: Immutable.Set<Selector>): Reducer {
+  return reducer((acc, rule) => {
+    const foundUtil: Selector | undefined = utilities.find(u =>
+      rule.selector.includes(u)
     );
+    return foundUtil
+      ? acc.setIn(['result', foundUtil], Immutable.List.of(rule))
+      : acc;
   });
+}
+
+function componentReducer(
+  rootSelectors: Immutable.List<Selector>,
+  lookup: ComponentLookup
+): Reducer {
+  return reducer(
+    (acc, rule) =>
+      findRootSelector(rootSelectors, rule.selector)
+        .map(key => lookup.get(key))
+        .map(componentName =>
+          acc.updateIn(
+            ['result', componentName],
+            (maybeRules: Immutable.List<PostCssRule> | undefined) => {
+              let rules = maybeRules
+                ? (maybeRules as Immutable.List<PostCssRule>)
+                : Immutable.List();
+              return rules.push(rule);
+            }
+          )
+        )
+        .first() || acc
+  );
+}
+
+function build(
+  lookup: ComponentLookup,
+  utilities: Immutable.Set<Selector>,
+  rules: Immutable.List<PostCssRule>
+): Cache {
+  let rootSelectors = Immutable.List(lookup.keys());
+
+  const reduction: Reducer = setFirstSelectorReducer
+    .concat(normalizeReducer)
+    .concat(utilReducer(utilities))
+    .concat(componentReducer(rootSelectors, lookup));
+
+  const state: CacheBuildState = rules
+    .reduce(
+      reduction.run,
+      Immutable.Map({
+        result: Immutable.OrderedMap(),
+        firstSelectorFound: false
+      })
+    )
+    .toObject();
+
+  return state.result.reduce<Cache>(
+    (cache, rules, name) =>
+      cache.concat({ name, css: rules.map(r => r.toString()).join('\n') }),
+    []
+  );
 }
 
 function flip<T, U>(
@@ -129,5 +187,5 @@ export function create(
   return Promise.resolve(rootSelectors)
     .then(Immutable.fromJS)
     .then(rootSelectors => flip<string, string>(rootSelectors))
-    .then(lookup => build(lookup, Immutable.Set(utilities), css));
+    .then(lookup => build(lookup, Immutable.Set(utilities), allRules(css)));
 }
