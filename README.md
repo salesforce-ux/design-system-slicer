@@ -1,11 +1,12 @@
 # Build
 
+`npm install`
 `npm run build`
 
 # Slicer
 
 ```js
-import { slicer, util } from "@salesforce-ux/design-system-slicer";
+import { slicer, util } from "@salesforce-ux/design-system/slicer";
 
 let selectors = [".slds-date_day", ".slds-button_neutral", ".slds-is-active"];
 
@@ -21,11 +22,4 @@ let rootSelectors = componentsFiltered.map(comp => util.rootSelectors(comp));
 let css = slicer.normalize();
 css += slicer.sliceForComponents("buttons", "data-tables");
 css += slicer.utilities();
-```
-
-## Raptor
-
-```js
-let rootComponent = RAPTOR.rootComponent(selectors, rootSelectors);
-// => 'button' || Error
 ```
