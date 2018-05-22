@@ -5,7 +5,8 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { create as createSlicer } from "../src/slicer";
-import { create as createCache, Cache } from "../src/cache";
+import { create as createCache } from "../src/cache";
+import { Cache } from "../src/types";
 
 // ui.json
 // -----------
@@ -35,7 +36,11 @@ beforeEach(async () => {
       buttons: [".slds-button", "slds-button_neutral"],
       datepickers: [".slds-datepicker"]
     },
-    [".slds-hyphenate", ".slds-truncate_container_66"],
+    [
+      ".slds-hyphenate",
+      ".slds-truncate_container_66",
+      "[class*='slds-text-link']"
+    ],
     css
   );
 });
@@ -47,6 +52,16 @@ it("has a normalize slice", () => {
   expect(result).toMatch("html");
   expect(result).toMatch("td");
   expect(result).not.toMatch(".slds");
+});
+
+it("has a complex utils slice", () => {
+  const slicer = createSlicer(cache);
+  const result = slicer.utils(".slds-text-link");
+
+  expect(result).toMatch(".slds-text-link");
+  expect(result).not.toMatch(".slds-hyphenate");
+  expect(result).not.toMatch("html");
+  expect(result).not.toMatch(".slds-button");
 });
 
 it("has an utils slice", () => {
@@ -64,6 +79,7 @@ it("buttons slice", () => {
   const result = slicer.sliceForComponents("buttons");
 
   expect(result).toMatch(".slds-button");
+  expect(result).toMatch("a.slds-button");
   expect(result).not.toMatch(".slds-datepicker");
   expect(result).not.toMatch(".slds-truncate_container_66");
 });

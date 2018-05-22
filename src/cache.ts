@@ -2,48 +2,33 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 import Immutable from 'immutable';
+
 import postcss, {
   Root as PostCssRoot,
   Rule as PostCssRule,
   Result as PostCssResult
 } from 'postcss';
 
-export type ComponentName = string;
+import {
+  Reducer,
+  setFirstSelectorReducer,
+  normalizeReducer,
+  utilReducer,
+  componentReducer
+} from './reducers';
 
-export type Selector = string;
-
-type ReducingFn<S = any> = (state: S, value: any) => S;
-
-type Semigroup<S = any> = (x: S) => S;
-
-type Reducer = { run: ReducingFn; concat: Semigroup<Reducer> };
+import {
+  ComponentName,
+  ComponentLookup,
+  Selector,
+  RootSelectors,
+  Cache
+} from './types';
 
 type CacheBuildState = {
   result: Immutable.OrderedMap<ComponentName, Immutable.List<PostCssRule>>;
   firstSelectorFound: boolean;
 };
-
-export type ComponentLookup = Immutable.Map<Selector, ComponentName>;
-
-export type RootSelectorsMap = Immutable.Map<
-  ComponentName,
-  Immutable.List<Selector>
->;
-
-export interface RootSelectors {
-  [componentName: string]: Selector[];
-}
-
-export type Cache = CacheItem[];
-
-export interface CacheItem {
-  name: string;
-  css: string;
-}
-
-function fromNullable<T>(value?: T): Immutable.List<T> {
-  return value ? Immutable.List.of(value) : Immutable.List();
-}
 
 function visitorPlugin(visitor: (rule: PostCssRule) => void) {
   return (root: PostCssRoot, result?: PostCssResult): void => {
@@ -63,82 +48,10 @@ function walkCss(
     .then(result => result.css);
 }
 
-function findRootSelector(
-  rootSelectors: Immutable.List<string>,
-  selector: string
-): Immutable.List<string> {
-  return fromNullable(
-    rootSelectors.find(rootSelector =>
-      selector.split(',').some(part => part.startsWith(rootSelector))
-    )
-  );
-}
-
 function allRules(css: string): Immutable.List<PostCssRule> {
   const acc: PostCssRule[] = [];
   walkCss(css, rule => acc.push(rule));
   return Immutable.List(acc);
-}
-
-const reducer = (run: ReducingFn): Reducer => ({
-  run,
-  concat: other => reducer((acc, rule) => other.run(run(acc, rule), rule))
-});
-
-const setFirstSelectorReducer: Reducer = reducer(
-  (acc, rule) =>
-    acc.get('firstSelectorFound')
-      ? acc
-      : acc.set('firstSelectorFound', /^\./.test(rule.selector))
-);
-
-const normalizeReducer: Reducer = reducer(
-  (acc, rule) =>
-    !acc.get('firstSelectorFound')
-      ? acc.updateIn(
-          ['result', 'normalize'],
-          (maybeRules: Immutable.List<PostCssRule> | undefined) => {
-            let rules = maybeRules
-              ? (maybeRules as Immutable.List<PostCssRule>)
-              : Immutable.List();
-            return rules.push(rule);
-          }
-        )
-      : acc
-);
-
-function utilReducer(utilities: Immutable.Set<Selector>): Reducer {
-  return reducer((acc, rule) => {
-    const foundUtil: Selector | undefined = utilities.find(u =>
-      rule.selector.includes(u)
-    );
-    return foundUtil
-      ? acc.setIn(['result', foundUtil], Immutable.List.of(rule))
-      : acc;
-  });
-}
-
-function componentReducer(
-  rootSelectors: Immutable.List<Selector>,
-  lookup: ComponentLookup
-): Reducer {
-  return reducer(
-    (acc, rule) =>
-      findRootSelector(rootSelectors, rule.selector)
-        .map(key => lookup.get(key))
-        .map(componentName =>
-          acc.updateIn(
-            ['result', componentName],
-            (maybeRules: Immutable.List<PostCssRule> | undefined) => {
-              let rules = maybeRules
-                ? (maybeRules as Immutable.List<PostCssRule>)
-                : Immutable.List();
-              return rules.push(rule);
-            }
-          )
-        )
-        .first() || acc
-  );
 }
 
 function build(

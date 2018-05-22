@@ -9,46 +9,60 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @font-face {
-  font-family: 'Salesforce Sans';
-  src: url("../fonts/webfonts/SalesforceSans-Light.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-Light.woff") format("woff");
-  font-weight: 300; }
+  font-family: "Salesforce Sans";
+  src: url("../fonts/webfonts/SalesforceSans-Light.woff2") format("woff2"),
+    url("../fonts/webfonts/SalesforceSans-Light.woff") format("woff");
+  font-weight: 300;
+}
 
 @font-face {
-  font-family: 'Salesforce Sans';
-  src: url("../fonts/webfonts/SalesforceSans-LightItalic.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-LightItalic.woff") format("woff");
+  font-family: "Salesforce Sans";
+  src: url("../fonts/webfonts/SalesforceSans-LightItalic.woff2") format("woff2"),
+    url("../fonts/webfonts/SalesforceSans-LightItalic.woff") format("woff");
   font-style: italic;
-  font-weight: 300; }
+  font-weight: 300;
+}
 
 @font-face {
-  font-family: 'Salesforce Sans';
-  src: url("../fonts/webfonts/SalesforceSans-Regular.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-Regular.woff") format("woff");
-  font-weight: 400; }
+  font-family: "Salesforce Sans";
+  src: url("../fonts/webfonts/SalesforceSans-Regular.woff2") format("woff2"),
+    url("../fonts/webfonts/SalesforceSans-Regular.woff") format("woff");
+  font-weight: 400;
+}
 
 @font-face {
-  font-family: 'Salesforce Sans';
-  src: url("../fonts/webfonts/SalesforceSans-Italic.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-Italic.woff") format("woff");
+  font-family: "Salesforce Sans";
+  src: url("../fonts/webfonts/SalesforceSans-Italic.woff2") format("woff2"),
+    url("../fonts/webfonts/SalesforceSans-Italic.woff") format("woff");
   font-style: italic;
-  font-weight: 400; }
+  font-weight: 400;
+}
 
 @font-face {
-  font-family: 'Salesforce Sans';
-  src: url("../fonts/webfonts/SalesforceSans-Bold.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-Bold.woff") format("woff");
-  font-weight: 700; }
+  font-family: "Salesforce Sans";
+  src: url("../fonts/webfonts/SalesforceSans-Bold.woff2") format("woff2"),
+    url("../fonts/webfonts/SalesforceSans-Bold.woff") format("woff");
+  font-weight: 700;
+}
 
 @font-face {
-  font-family: 'Salesforce Sans';
-  src: url("../fonts/webfonts/SalesforceSans-BoldItalic.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-BoldItalic.woff") format("woff");
+  font-family: "Salesforce Sans";
+  src: url("../fonts/webfonts/SalesforceSans-BoldItalic.woff2") format("woff2"),
+    url("../fonts/webfonts/SalesforceSans-BoldItalic.woff") format("woff");
   font-style: italic;
-  font-weight: 700; }
+  font-weight: 700;
+}
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%; }
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  margin: 0; }
+  margin: 0;
+}
 
 article,
 aside,
@@ -63,86 +77,107 @@ menu,
 nav,
 section,
 summary {
-  display: block; }
+  display: block;
+}
 
 audio,
 canvas,
 progress,
 video {
   display: inline-block;
-  vertical-align: baseline; }
+  vertical-align: baseline;
+}
 
 audio:not([controls]) {
   display: none;
-  height: 0; }
+  height: 0;
+}
 
 template {
-  display: none; }
+  display: none;
+}
 
 a {
-  background-color: transparent; }
+  background-color: transparent;
+}
 
 a:active,
 a:hover {
-  outline: 0; }
+  outline: 0;
+}
 
 abbr[title] {
-  border-bottom: 1px dotted; }
+  border-bottom: 1px dotted;
+}
 
 b,
 strong {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 dfn {
-  font-style: italic; }
+  font-style: italic;
+}
 
 h1 {
   font-size: 2em;
-  margin: 0.67em 0; }
+  margin: 0.67em 0;
+}
 
 mark {
   background: #ff0;
-  color: #000; }
+  color: #000;
+}
 
 small {
-  font-size: 80%; }
+  font-size: 80%;
+}
 
 sub,
 sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
-  vertical-align: baseline; }
+  vertical-align: baseline;
+}
 
 sup {
-  top: -0.5em; }
+  top: -0.5em;
+}
 
 sub {
-  bottom: -0.25em; }
+  bottom: -0.25em;
+}
 
 img {
-  border: 0; }
+  border: 0;
+}
 
 svg:not(:root) {
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 figure {
-  margin: 1em 40px; }
+  margin: 1em 40px;
+}
 
 hr {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
-  height: 0; }
+  height: 0;
+}
 
 pre {
-  overflow: auto; }
+  overflow: auto;
+}
 
 code,
 kbd,
 pre,
 samp {
   font-family: monospace, monospace;
-  font-size: 1em; }
+  font-size: 1em;
+}
 
 button,
 input,
@@ -151,100 +186,122 @@ select,
 textarea {
   color: inherit;
   font: inherit;
-  margin: 0; }
+  margin: 0;
+}
 
 button {
-  overflow: visible; }
+  overflow: visible;
+}
 
 button,
 select {
-  text-transform: none; }
+  text-transform: none;
+}
 
 button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button;
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 button[disabled],
 html input[disabled] {
-  cursor: default; }
+  cursor: default;
+}
 
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 input {
-  line-height: normal; }
+  line-height: normal;
+}
 
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
-  padding: 0; }
+  padding: 0;
+}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  height: auto; }
+  height: auto;
+}
 
 input[type="search"] {
   -webkit-appearance: textfield;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
-  box-sizing: content-box; }
+  box-sizing: content-box;
+}
 
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none; }
+  -webkit-appearance: none;
+}
 
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
-  padding: 0.35em 0.625em 0.75em; }
+  padding: 0.35em 0.625em 0.75em;
+}
 
 legend {
   border: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 textarea {
-  overflow: auto; }
+  overflow: auto;
+}
 
 optgroup {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 table {
   border-collapse: collapse;
-  border-spacing: 0; }
+  border-spacing: 0;
+}
 
 td,
 th {
-  padding: 0; }
+  padding: 0;
+}
 
 *,
 *:before,
 *:after {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 :-ms-input-placeholder {
   color: #706e6b;
   font-weight: 400;
-  font-size: 0.8125rem; }
+  font-size: 0.8125rem;
+}
 
 ::placeholder {
   color: #706e6b;
   font-weight: 400;
-  font-size: 0.8125rem; }
+  font-size: 0.8125rem;
+}
 
 ::-moz-selection {
   background: #d8edff;
   text-shadow: none;
-  color: #3e3e3c; }
+  color: #3e3e3c;
+}
 
 ::selection {
   background: #d8edff;
   text-shadow: none;
-  color: #3e3e3c; }
+  color: #3e3e3c;
+}
 
 html {
   font-family: "Salesforce Sans", Arial, sans-serif;
@@ -252,13 +309,14 @@ html {
   line-height: 1.5;
   background: #fafaf9;
   color: #3e3e3c;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: transparent;
+}
 
 body {
   font-size: 0.8125rem;
-  background: transparent; }
+  background: transparent;
+}
 
-  
 /**
  * @summary Initiates a datepicker component
  *
@@ -287,16 +345,19 @@ body {
    *
    * @selector .slds-datepicker__month
    * @restrict .slds-datepicker table
-   */ }
+   */
+}
 
 .slds-datepicker th,
 .slds-datepicker td {
-  text-align: center; }
+  text-align: center;
+}
 
 .slds-datepicker th {
   padding: 0.5rem;
   font-weight: 400;
-  color: #706e6b; }
+  color: #706e6b;
+}
 
 .slds-datepicker td {
   padding: 0.25rem;
@@ -319,7 +380,8 @@ body {
      *
      * @selector .slds-is-selected
      * @restrict .slds-datepicker td
-     */ }
+     */
+}
 
 .slds-datepicker td > .slds-day {
   width: 2rem;
@@ -329,39 +391,50 @@ body {
   min-width: 2rem;
   line-height: 2rem;
   border-radius: 50%;
-  margin: auto; }
+  margin: auto;
+}
 
 .slds-datepicker td:hover:not(.slds-disabled-text) > .slds-day,
 .slds-datepicker td:focus:not(.slds-disabled-text) > .slds-day,
 .slds-datepicker td.slds-is-today > .slds-day {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .slds-datepicker td.slds-is-today > .slds-day {
-  background-color: #ecebea; }
+  background-color: #ecebea;
+}
 
 .slds-datepicker td:focus {
-  outline: 0; }
+  outline: 0;
+}
 
 .slds-datepicker td:focus > .slds-day {
-  box-shadow: #0070d2 0 0 0 1px inset; }
+  box-shadow: #0070d2 0 0 0 1px inset;
+}
 
 .slds-datepicker td.slds-is-selected > .slds-day {
   background: #0070d2;
-  color: white; }
+  color: white;
+}
 
 .slds-datepicker td.slds-is-selected:focus > .slds-day {
   background: #005fb2;
   box-shadow: #005fb2 0 0 3px;
-  color: white; }
+  color: white;
+}
 
 .slds-datepicker__filter {
-  padding: 0.25rem; }
+  padding: 0.25rem;
+}
 
-.slds-datepicker__filter_month, .slds-datepicker__filter--month {
-  padding: 0 0.25rem 0 0; }
+.slds-datepicker__filter_month,
+.slds-datepicker__filter--month {
+  padding: 0 0.25rem 0 0;
+}
 
 .slds-datepicker__month {
-  font-size: 0.75rem; }
+  font-size: 0.75rem;
+}
 
 /**
  * @summary Indicates days that are in previous/next months
@@ -370,7 +443,8 @@ body {
  * @restrict .slds-datepicker td
  */
 .slds-disabled-text {
-  color: #dddbda; }
+  color: #dddbda;
+}
 
 .slds-datepicker {
   /**
@@ -402,16 +476,27 @@ body {
    *
    * @selector .slds-is-selected-multi
    * @restrict .slds-datepicker td
-   */ }
+   */
+}
 
-.slds-datepicker .slds-has-multi-selection .slds-is-selected-multi:last-child > .slds-day:after {
+.slds-datepicker
+  .slds-has-multi-selection
+  .slds-is-selected-multi:last-child
+  > .slds-day:after {
   left: auto;
   right: 0;
-  transform: translateX(0.25rem); }
+  transform: translateX(0.25rem);
+}
 
-.slds-datepicker .slds-has-multi-row-selection .slds-is-selected-multi:first-child > .slds-day:before,
-.slds-datepicker .slds-has-multi-row-selection .slds-is-selected-multi:last-child > .slds-day:after {
-  content: '';
+.slds-datepicker
+  .slds-has-multi-row-selection
+  .slds-is-selected-multi:first-child
+  > .slds-day:before,
+.slds-datepicker
+  .slds-has-multi-row-selection
+  .slds-is-selected-multi:last-child
+  > .slds-day:after {
+  content: "";
   position: absolute;
   background: #0070d2;
   top: 0;
@@ -419,25 +504,39 @@ body {
   height: 100%;
   width: 2.5rem;
   transform: translateX(-0.5rem);
-  z-index: -1; }
+  z-index: -1;
+}
 
-.slds-datepicker .slds-has-multi-row-selection .slds-is-selected-multi:first-child > .slds-day:before {
+.slds-datepicker
+  .slds-has-multi-row-selection
+  .slds-is-selected-multi:first-child
+  > .slds-day:before {
   left: 0;
-  transform: translateX(-0.25rem); }
+  transform: translateX(-0.25rem);
+}
 
-.slds-datepicker .slds-has-multi-row-selection .slds-is-selected-multi:last-child > .slds-day:after {
+.slds-datepicker
+  .slds-has-multi-row-selection
+  .slds-is-selected-multi:last-child
+  > .slds-day:after {
   left: auto;
   right: 0;
-  transform: translateX(0.25rem); }
+  transform: translateX(0.25rem);
+}
 
 .slds-datepicker td.slds-is-selected-multi > .slds-day {
-  overflow: visible; }
+  overflow: visible;
+}
 
 .slds-datepicker td.slds-is-selected-multi.slds-is-today > .slds-day {
-  box-shadow: white 0 0 0 1px inset; }
+  box-shadow: white 0 0 0 1px inset;
+}
 
-.slds-datepicker td.slds-is-selected-multi + .slds-is-selected-multi > .slds-day:before {
-  content: '';
+.slds-datepicker
+  td.slds-is-selected-multi
+  + .slds-is-selected-multi
+  > .slds-day:before {
+  content: "";
   position: absolute;
   background: #0070d2;
   top: 0;
@@ -445,42 +544,48 @@ body {
   height: 100%;
   width: 2.5rem;
   transform: translateX(-0.5rem);
-  z-index: -1; }
+  z-index: -1;
+}
 
 .slds-modal_form .slds-modal__header,
 .slds-modal_form .slds-modal__content:last-child,
 .slds-modal--form .slds-modal__header,
 .slds-modal--form .slds-modal__content:last-child {
   border-radius: 0;
-  box-shadow: none; }
+  box-shadow: none;
+}
 
 .slds-modal_form .slds-modal__container,
 .slds-modal--form .slds-modal__container {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 .slds-modal_form .slds-modal__header .slds-text-heading_medium,
 .slds-modal_form .slds-modal__header .slds-text-heading--medium,
 .slds-modal--form .slds-modal__header .slds-text-heading_medium,
 .slds-modal--form .slds-modal__header .slds-text-heading--medium {
-  line-height: 1.5; }
+  line-height: 1.5;
+}
 
 .slds-modal_form .slds-modal__header .slds-button,
 .slds-modal--form .slds-modal__header .slds-button {
   display: inline-block;
-  width: auto; }
+  width: auto;
+}
 
 .slds-modal_form .slds-modal__header .slds-button:first-child,
 .slds-modal--form .slds-modal__header .slds-button:first-child {
   float: left;
-  margin-right: 0.5rem; }
+  margin-right: 0.5rem;
+}
 
 .slds-modal_form .slds-modal__header .slds-button:first-child + .slds-button,
 .slds-modal--form .slds-modal__header .slds-button:first-child + .slds-button {
   float: right;
   margin-top: 0;
-  margin-left: 0.5rem; }
-
+  margin-left: 0.5rem;
+}
 
 /**
  * @summary Creates button group container
@@ -493,27 +598,31 @@ body {
 .slds-button-group,
 .slds-button-group-list {
   display: -ms-inline-flexbox;
-  display: inline-flex; }
+  display: inline-flex;
+}
 
 .slds-button-group .slds-button,
 .slds-button-group-list .slds-button {
   border-radius: 0;
-  border-width: 1px; }
+  border-width: 1px;
+}
 
 .slds-button-group .slds-button:focus,
 .slds-button-group-list .slds-button:focus {
-  z-index: 1; }
+  z-index: 1;
+}
 
 .slds-button-group .slds-button + .slds-button,
 .slds-button-group .slds-button + .slds-button_last .slds-button,
 .slds-button-group .slds-button + .slds-button--last .slds-button,
 .slds-button-group-list li + li .slds-button {
-  margin-left: -1px; }
+  margin-left: -1px;
+}
 
 .slds-button-group-list li:first-child .slds-button,
 .slds-button-group .slds-button:first-child {
-  border-radius: 0.25rem 0 0 0.25rem; }
-
+  border-radius: 0.25rem 0 0 0.25rem;
+}
 
 /**
  * The base `.slds-button` looks like a plain text link. It removes all the
@@ -563,53 +672,74 @@ body {
   -webkit-appearance: none;
   white-space: normal;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none; }
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-.slds-button:hover, .slds-button:focus, .slds-button:active, .slds-button:visited {
-  text-decoration: none; }
+.slds-button:hover,
+.slds-button:focus,
+.slds-button:active,
+.slds-button:visited {
+  text-decoration: none;
+}
 
-.slds-button:hover, .slds-button:focus {
-  color: #005fb2; }
+.slds-button:hover,
+.slds-button:focus {
+  color: #005fb2;
+}
 
 .slds-button:focus {
   outline: 0;
-  box-shadow: 0 0 3px #0070D2; }
+  box-shadow: 0 0 3px #0070d2;
+}
 
 .slds-button:active {
-  color: #005fb2; }
+  color: #005fb2;
+}
 
 .slds-button[disabled] {
-  color: #dddbda; }
+  color: #dddbda;
+}
 
 .slds-button[disabled] * {
-  pointer-events: none; }
+  pointer-events: none;
+}
 
 .slds-button a {
-  color: currentColor; }
+  color: currentColor;
+}
 
-.slds-button:hover .slds-button__icon, .slds-button:focus .slds-button__icon, .slds-button:active .slds-button__icon, .slds-button[disabled] .slds-button__icon {
+.slds-button:hover .slds-button__icon,
+.slds-button:focus .slds-button__icon,
+.slds-button:active .slds-button__icon,
+.slds-button[disabled] .slds-button__icon {
   fill: currentColor;
-  pointer-events: none; }
+  pointer-events: none;
+}
 
 .slds-button + .slds-button-group,
 .slds-button + .slds-button-group-list {
-  margin-left: 0.25rem; }
+  margin-left: 0.25rem;
+}
 
 .slds-button + .slds-button {
-  margin-left: 0.25rem; }
+  margin-left: 0.25rem;
+}
 
 a.slds-button {
-  text-align: center; }
+  text-align: center;
+}
 
 a.slds-button:focus {
   outline: 0;
-  box-shadow: 0 0 3px #0070D2; }
+  box-shadow: 0 0 3px #0070d2;
+}
 
 a.slds-button--inverse:focus {
   outline: none;
-  box-shadow: 0 0 3px #ecebea; }
+  box-shadow: 0 0 3px #ecebea;
+}
 
 /**
  * Resets attributes of .slds-button back to the browser default
@@ -626,7 +756,8 @@ a.slds-button--inverse:focus {
   padding: 0;
   background: transparent;
   border: 0;
-  text-align: inherit; }
+  text-align: inherit;
+}
 
 /**
  * Creates the gray border with white background default style
@@ -645,21 +776,26 @@ a.slds-button--inverse:focus {
   border: 1px solid #dddbda;
   transition: border 0.15s linear;
   border-color: #dddbda;
-  background-color: white; }
+  background-color: white;
+}
 
-.slds-button_neutral:hover, .slds-button_neutral:focus,
+.slds-button_neutral:hover,
+.slds-button_neutral:focus,
 .slds-button--neutral:hover,
 .slds-button--neutral:focus {
-  background-color: #f4f6f9; }
+  background-color: #f4f6f9;
+}
 
 .slds-button_neutral:active,
 .slds-button--neutral:active {
-  background-color: #eef1f6; }
+  background-color: #eef1f6;
+}
 
 .slds-button_neutral[disabled],
 .slds-button--neutral[disabled] {
   background-color: white;
-  cursor: default; }
+  cursor: default;
+}
 
 /**
  * Creates the brand blue Salesforce style
@@ -679,31 +815,39 @@ a.slds-button--inverse:focus {
   transition: border 0.15s linear;
   background-color: #0070d2;
   border-color: #0070d2;
-  color: white; }
+  color: white;
+}
 
-.slds-button_brand:link, .slds-button_brand:visited, .slds-button_brand:active,
+.slds-button_brand:link,
+.slds-button_brand:visited,
+.slds-button_brand:active,
 .slds-button--brand:link,
 .slds-button--brand:visited,
 .slds-button--brand:active {
-  color: white; }
+  color: white;
+}
 
-.slds-button_brand:hover, .slds-button_brand:focus,
+.slds-button_brand:hover,
+.slds-button_brand:focus,
 .slds-button--brand:hover,
 .slds-button--brand:focus {
   background-color: #005fb2;
   border-color: #005fb2;
-  color: white; }
+  color: white;
+}
 
 .slds-button_brand:active,
 .slds-button--brand:active {
   background-color: #005fb2;
-  border-color: #005fb2; }
+  border-color: #005fb2;
+}
 
 .slds-button_brand[disabled],
 .slds-button--brand[disabled] {
   background: #c9c7c5;
   border-color: #c9c7c5;
-  color: white; }
+  color: white;
+}
 
 /**
  * Creates the inverse style for dark backgrounds
@@ -722,14 +866,18 @@ a.slds-button--inverse:focus {
   border: 1px solid #dddbda;
   transition: border 0.15s linear;
   background-color: transparent;
-  border-color: #dddbda; }
+  border-color: #dddbda;
+}
 
 .slds-button_inverse[disabled],
 .slds-button--inverse[disabled] {
   background-color: transparent;
-  border-color: rgba(255, 255, 255, 0.15); }
+  border-color: rgba(255, 255, 255, 0.15);
+}
 
-.slds-button_inverse, .slds-button_inverse:link, .slds-button_inverse:visited,
+.slds-button_inverse,
+.slds-button_inverse:link,
+.slds-button_inverse:visited,
 .slds-button--inverse,
 .slds-button--inverse:link,
 .slds-button--inverse:visited,
@@ -739,9 +887,12 @@ a.slds-button--inverse:focus {
 .slds-button--icon-border-inverse,
 .slds-button--icon-border-inverse:link,
 .slds-button--icon-border-inverse:visited {
-  color: #ecebea; }
+  color: #ecebea;
+}
 
-.slds-button_inverse:hover, .slds-button_inverse:focus, .slds-button_inverse:active,
+.slds-button_inverse:hover,
+.slds-button_inverse:focus,
+.slds-button_inverse:active,
 .slds-button--inverse:hover,
 .slds-button--inverse:focus,
 .slds-button--inverse:active,
@@ -751,20 +902,23 @@ a.slds-button--inverse:focus {
 .slds-button--icon-border-inverse:hover,
 .slds-button--icon-border-inverse:focus,
 .slds-button--icon-border-inverse:active {
-  color: #0070d2; }
+  color: #0070d2;
+}
 
 .slds-button_inverse:focus,
 .slds-button--inverse:focus,
 .slds-button_icon-border-inverse:focus,
 .slds-button--icon-border-inverse:focus {
   outline: none;
-  box-shadow: 0 0 3px #ecebea; }
+  box-shadow: 0 0 3px #ecebea;
+}
 
 .slds-button_inverse[disabled],
 .slds-button--inverse[disabled],
 .slds-button_icon-border-inverse[disabled],
 .slds-button--icon-border-inverse[disabled] {
-  color: rgba(255, 255, 255, 0.15); }
+  color: rgba(255, 255, 255, 0.15);
+}
 
 /**
  * Creates a red button style
@@ -784,30 +938,38 @@ a.slds-button--inverse:focus {
   transition: border 0.15s linear;
   background-color: #c23934;
   border-color: #c23934;
-  color: white; }
+  color: white;
+}
 
-.slds-button_destructive:link, .slds-button_destructive:visited, .slds-button_destructive:active,
+.slds-button_destructive:link,
+.slds-button_destructive:visited,
+.slds-button_destructive:active,
 .slds-button--destructive:link,
 .slds-button--destructive:visited,
 .slds-button--destructive:active {
-  color: white; }
+  color: white;
+}
 
-.slds-button_destructive:hover, .slds-button_destructive:focus,
+.slds-button_destructive:hover,
+.slds-button_destructive:focus,
 .slds-button--destructive:hover,
 .slds-button--destructive:focus {
   background-color: #a61a14;
-  color: white; }
+  color: white;
+}
 
 .slds-button_destructive:active,
 .slds-button--destructive:active {
   background-color: #870500;
-  border-color: #870500; }
+  border-color: #870500;
+}
 
 .slds-button_destructive[disabled],
 .slds-button--destructive[disabled] {
   background: #e0e5ee;
   border-color: transparent;
-  color: white; }
+  color: white;
+}
 
 /**
  * Creates a green button style
@@ -827,25 +989,32 @@ a.slds-button--inverse:focus {
   transition: border 0.15s linear;
   background-color: #4bca81;
   border-color: #4bca81;
-  color: #3e3e3c; }
+  color: #3e3e3c;
+}
 
-.slds-button_success:link, .slds-button_success:visited, .slds-button_success:active,
+.slds-button_success:link,
+.slds-button_success:visited,
+.slds-button_success:active,
 .slds-button--success:link,
 .slds-button--success:visited,
 .slds-button--success:active {
-  color: #3e3e3c; }
+  color: #3e3e3c;
+}
 
-.slds-button_success:hover, .slds-button_success:focus,
+.slds-button_success:hover,
+.slds-button_success:focus,
 .slds-button--success:hover,
 .slds-button--success:focus {
   background-color: #04844b;
   border-color: #04844b;
-  color: white; }
+  color: white;
+}
 
 .slds-button_success:active,
 .slds-button--success:active {
   background-color: #04844b;
-  border-color: #04844b; }
+  border-color: #04844b;
+}
 
 /**
  * Creates a smaller button style
@@ -857,27 +1026,35 @@ a.slds-button--inverse:focus {
 .slds-button_small,
 .slds-button--small {
   line-height: 1.75rem;
-  min-height: 2rem; }
+  min-height: 2rem;
+}
 
 /**
  * @selector .slds-button-space-left
  * @deprecated
  */
 .slds-button-space-left {
-  margin-left: 0.25rem; }
+  margin-left: 0.25rem;
+}
 
 .slds-button_hint,
 .slds-button--hint {
-  color: #b0adab; }
+  color: #b0adab;
+}
 
-.slds-button_hint:hover, .slds-button_hint:focus, .slds-button_hint:active,
+.slds-button_hint:hover,
+.slds-button_hint:focus,
+.slds-button_hint:active,
 .slds-button--hint:hover,
 .slds-button--hint:focus,
 .slds-button--hint:active {
-  color: #0070d2; }
+  color: #0070d2;
+}
 
-.slds-hint-parent:hover .slds-button--hint, .slds-hint-parent:focus .slds-button--hint {
-  color: #0070d2; }
+.slds-hint-parent:hover .slds-button--hint,
+.slds-hint-parent:focus .slds-button--hint {
+  color: #0070d2;
+}
 
 /**
  * @summary Sizing for icon that sits inside button__icon
@@ -902,19 +1079,26 @@ a.slds-button--inverse:focus {
    * @summary x-small size button icon svg
    * @selector .slds-button__icon_x-small
    * @restrict .slds-button__icon
-   */ }
+   */
+}
 
-.slds-button__icon_large, .slds-button__icon--large {
+.slds-button__icon_large,
+.slds-button__icon--large {
   width: 1.5rem;
-  height: 1.5rem; }
+  height: 1.5rem;
+}
 
-.slds-button__icon_small, .slds-button__icon--small {
+.slds-button__icon_small,
+.slds-button__icon--small {
   width: 0.75rem;
-  height: 0.75rem; }
+  height: 0.75rem;
+}
 
-.slds-button__icon_x-small, .slds-button__icon--x-small {
+.slds-button__icon_x-small,
+.slds-button__icon--x-small {
   width: 0.5rem;
-  height: 0.5rem; }
+  height: 0.5rem;
+}
 
 /**
  * @summary Position of icon when sitting to the left side of the text when inside a button
@@ -923,7 +1107,8 @@ a.slds-button--inverse:focus {
  */
 .slds-button__icon_left,
 .slds-button__icon--left {
-  margin-right: 0.5rem; }
+  margin-right: 0.5rem;
+}
 
 /**
  * @summary Position of icon when sitting to the right side of the text when inside a button
@@ -932,9 +1117,9 @@ a.slds-button--inverse:focus {
  */
 .slds-button__icon_right,
 .slds-button__icon--right {
-  margin-left: 0.5rem; }
+  margin-left: 0.5rem;
+}
 
-  
 /**
  * The stateful button requires the `.slds-button--neutral` class in addition to the `.slds-button` class.
  *
@@ -958,27 +1143,33 @@ a.slds-button--inverse:focus {
 .slds-button_neutral.slds-is-selected,
 .slds-button--neutral.slds-is-selected {
   border-color: transparent;
-  background-color: transparent; }
+  background-color: transparent;
+}
 
-.slds-button_neutral.slds-is-selected:hover:not([disabled]), .slds-button_neutral.slds-is-selected:focus:not([disabled]),
+.slds-button_neutral.slds-is-selected:hover:not([disabled]),
+.slds-button_neutral.slds-is-selected:focus:not([disabled]),
 .slds-button--neutral.slds-is-selected:hover:not([disabled]),
 .slds-button--neutral.slds-is-selected:focus:not([disabled]) {
   border-color: #dddbda;
-  background-color: #f4f6f9; }
+  background-color: #f4f6f9;
+}
 
 .slds-button_neutral.slds-is-selected:active:not([disabled]),
 .slds-button--neutral.slds-is-selected:active:not([disabled]) {
-  background-color: #eef1f6; }
+  background-color: #eef1f6;
+}
 
 .slds-button__icon_stateful,
 .slds-button__icon--stateful {
   width: 0.75rem;
   height: 0.75rem;
-  fill: currentColor; }
+  fill: currentColor;
+}
 
 .slds-button_inverse.slds-is-selected,
 .slds-button--inverse.slds-is-selected {
-  border-color: transparent; }
+  border-color: transparent;
+}
 
 /**
  * Default state of a stateful button
@@ -990,13 +1181,16 @@ a.slds-button--inverse:focus {
  * @group interaction
  */
 .slds-not-selected .slds-text-selected {
-  display: none; }
+  display: none;
+}
 
 .slds-not-selected .slds-text-selected-focus {
-  display: none; }
+  display: none;
+}
 
 .slds-not-selected .slds-text-not-selected {
-  display: block; }
+  display: block;
+}
 
 /**
  * When button is selected and still has focus from click
@@ -1011,19 +1205,22 @@ a.slds-button--inverse:focus {
 .slds-is-selected[disabled] .slds-text-selected,
 .slds-is-selected[disabled]:hover .slds-text-selected,
 .slds-is-selected[disabled]:focus .slds-text-selected {
-  display: block; }
+  display: block;
+}
 
 .slds-is-selected-clicked .slds-text-selected-focus,
 .slds-is-selected[disabled] .slds-text-selected-focus,
 .slds-is-selected[disabled]:hover .slds-text-selected-focus,
 .slds-is-selected[disabled]:focus .slds-text-selected-focus {
-  display: none; }
+  display: none;
+}
 
 .slds-is-selected-clicked .slds-text-not-selected,
 .slds-is-selected[disabled] .slds-text-not-selected,
 .slds-is-selected[disabled]:hover .slds-text-not-selected,
 .slds-is-selected[disabled]:focus .slds-text-not-selected {
-  display: none; }
+  display: none;
+}
 
 /**
  * When button is pressed and selected
@@ -1035,28 +1232,38 @@ a.slds-button--inverse:focus {
  * @group interaction
  */
 .slds-is-selected .slds-text-not-selected {
-  display: none; }
+  display: none;
+}
 
 .slds-is-selected .slds-text-selected {
-  display: block; }
+  display: block;
+}
 
 .slds-is-selected .slds-text-selected-focus {
-  display: none; }
+  display: none;
+}
 
-.slds-is-selected:hover .slds-text-not-selected, .slds-is-selected:focus .slds-text-not-selected {
-  display: none; }
+.slds-is-selected:hover .slds-text-not-selected,
+.slds-is-selected:focus .slds-text-not-selected {
+  display: none;
+}
 
-.slds-is-selected:hover .slds-text-selected, .slds-is-selected:focus .slds-text-selected {
-  display: none; }
+.slds-is-selected:hover .slds-text-selected,
+.slds-is-selected:focus .slds-text-selected {
+  display: none;
+}
 
-.slds-is-selected:hover .slds-text-selected-focus, .slds-is-selected:focus .slds-text-selected-focus {
-  display: block; }
+.slds-is-selected:hover .slds-text-selected-focus,
+.slds-is-selected:focus .slds-text-selected-focus {
+  display: block;
+}
 
 .slds-button_icon-bare,
 .slds-button--icon-bare {
   line-height: 1;
   vertical-align: middle;
-  color: #706e6b; }
+  color: #706e6b;
+}
 
 /**
  * @summary Creates a button that looks like a plain icon
@@ -1084,7 +1291,8 @@ a.slds-button--inverse:focus {
 .slds-button--icon-error {
   line-height: 1;
   vertical-align: middle;
-  color: #706e6b; }
+  color: #706e6b;
+}
 
 /**
  * @summary Default width + height for button icon with containers
@@ -1105,7 +1313,8 @@ a.slds-button--inverse:focus {
 .slds-button_icon-container-more,
 .slds-button--icon-container-more {
   width: 2rem;
-  height: 2rem; }
+  height: 2rem;
+}
 
 /**
  * @summary Transparent themed button icon - Button icon has a border with a transparent background
@@ -1121,13 +1330,15 @@ a.slds-button--inverse:focus {
   color: #706e6b;
   border: 1px solid #dddbda;
   transition: border 0.15s linear;
-  border-color: #dddbda; }
+  border-color: #dddbda;
+}
 
 .slds-button_icon-border-filled[disabled],
 .slds-button--icon-border-filled[disabled],
 .slds-button_icon-border[disabled],
 .slds-button--icon-border[disabled] {
-  color: #dddbda; }
+  color: #dddbda;
+}
 
 /**
  * @summary Button icon with border and transparent background, to be used on an inversed background
@@ -1137,12 +1348,14 @@ a.slds-button--inverse:focus {
 .slds-button_icon-border-inverse,
 .slds-button--icon-border-inverse {
   background-color: transparent;
-  border-color: #dddbda; }
+  border-color: #dddbda;
+}
 
 .slds-button_icon-border-inverse[disabled],
 .slds-button--icon-border-inverse[disabled] {
   background-color: transparent;
-  border-color: rgba(255, 255, 255, 0.15); }
+  border-color: rgba(255, 255, 255, 0.15);
+}
 
 /**
  * @summary Branded button icon - Button icon has a filled background with the brand color
@@ -1152,24 +1365,32 @@ a.slds-button--inverse:focus {
 .slds-button_icon-brand {
   background-color: #0070d2;
   border-color: #0070d2;
-  color: white; }
+  color: white;
+}
 
-.slds-button_icon-brand:link, .slds-button_icon-brand:visited, .slds-button_icon-brand:active {
-  color: white; }
+.slds-button_icon-brand:link,
+.slds-button_icon-brand:visited,
+.slds-button_icon-brand:active {
+  color: white;
+}
 
-.slds-button_icon-brand:hover, .slds-button_icon-brand:focus {
+.slds-button_icon-brand:hover,
+.slds-button_icon-brand:focus {
   background-color: #005fb2;
   border-color: #005fb2;
-  color: white; }
+  color: white;
+}
 
 .slds-button_icon-brand:active {
   background-color: #005fb2;
-  border-color: #005fb2; }
+  border-color: #005fb2;
+}
 
 .slds-button_icon-brand[disabled] {
   background: #c9c7c5;
   border-color: #c9c7c5;
-  color: white; }
+  color: white;
+}
 
 /**
  * @summary Neutral themed button icon - Button icon has a border with a filled background
@@ -1178,12 +1399,14 @@ a.slds-button--inverse:focus {
  */
 .slds-button_icon-border-filled,
 .slds-button--icon-border-filled {
-  background-color: white; }
+  background-color: white;
+}
 
 .slds-button_icon-border-filled[disabled],
 .slds-button--icon-border-filled[disabled] {
   border-color: #dddbda;
-  background-color: white; }
+  background-color: white;
+}
 
 /**
  * @summary Bare button icon with no border or background, to be used on an inversed background
@@ -1194,47 +1417,57 @@ a.slds-button--inverse:focus {
 .slds-button--icon-inverse,
 .slds-button_icon-border-inverse,
 .slds-button--icon-border-inverse {
-  color: white; }
+  color: white;
+}
 
-.slds-button_icon-inverse:hover, .slds-button_icon-inverse:focus,
+.slds-button_icon-inverse:hover,
+.slds-button_icon-inverse:focus,
 .slds-button--icon-inverse:hover,
 .slds-button--icon-inverse:focus,
 .slds-button_icon-border-inverse:hover,
 .slds-button_icon-border-inverse:focus,
 .slds-button--icon-border-inverse:hover,
 .slds-button--icon-border-inverse:focus {
-  color: rgba(255, 255, 255, 0.75); }
+  color: rgba(255, 255, 255, 0.75);
+}
 
 .slds-button_icon-inverse:focus,
 .slds-button--icon-inverse:focus,
 .slds-button_icon-border-inverse:focus,
 .slds-button--icon-border-inverse:focus {
   outline: none;
-  box-shadow: 0 0 3px #ecebea; }
+  box-shadow: 0 0 3px #ecebea;
+}
 
 .slds-button_icon-inverse:active,
 .slds-button--icon-inverse:active,
 .slds-button_icon-border-inverse:active,
 .slds-button--icon-border-inverse:active {
-  color: rgba(255, 255, 255, 0.5); }
+  color: rgba(255, 255, 255, 0.5);
+}
 
 .slds-button_icon-inverse[disabled],
 .slds-button--icon-inverse[disabled],
 .slds-button_icon-border-inverse[disabled],
 .slds-button--icon-border-inverse[disabled] {
-  color: rgba(255, 255, 255, 0.15); }
+  color: rgba(255, 255, 255, 0.15);
+}
 
 /**
  * @summary Error state - Typically used in conjunction with an error toolip
  * @selector .slds-button_icon-error
  * @restrict .slds-button_icon
  */
-.slds-button_icon-error, .slds-button_icon-error:hover, .slds-button_icon-error:active, .slds-button_icon-error:focus,
+.slds-button_icon-error,
+.slds-button_icon-error:hover,
+.slds-button_icon-error:active,
+.slds-button_icon-error:focus,
 .slds-button--icon-error,
 .slds-button--icon-error:hover,
 .slds-button--icon-error:active,
 .slds-button--icon-error:focus {
-  color: #c23934; }
+  color: #c23934;
+}
 
 /**
  * @summary Changes a button icon container to be 24x24px
@@ -1246,7 +1479,8 @@ a.slds-button--inverse:focus {
 .slds-button_icon-small,
 .slds-button--icon-small {
   width: 1.5rem;
-  height: 1.5rem; }
+  height: 1.5rem;
+}
 
 /**
  * @summary Changes a button icon container to be 20x20px
@@ -1259,12 +1493,14 @@ a.slds-button--inverse:focus {
 .slds-button--icon-x-small {
   width: 1.25rem;
   height: 1.25rem;
-  line-height: 1; }
+  line-height: 1;
+}
 
 .slds-button_icon-x-small .slds-button__icon,
 .slds-button--icon-x-small .slds-button__icon {
   width: 0.75rem;
-  height: 0.75rem; }
+  height: 0.75rem;
+}
 
 /**
  * @summary Changes a button icon container to be 16x16px
@@ -1277,12 +1513,14 @@ a.slds-button--inverse:focus {
 .slds-button--icon-xx-small {
   width: 1rem;
   height: 1rem;
-  line-height: 1; }
+  line-height: 1;
+}
 
 .slds-button_icon-xx-small .slds-button__icon,
 .slds-button--icon-xx-small .slds-button__icon {
   width: 0.5rem;
-  height: 0.5rem; }
+  height: 0.5rem;
+}
 
 /**
  * @summary Creates a button menu icon container that has borders and a filled background
@@ -1296,24 +1534,30 @@ a.slds-button--inverse:focus {
   padding: 0 0.5rem;
   background-color: white;
   border-color: #dddbda;
-  color: #706e6b; }
+  color: #706e6b;
+}
 
-.slds-button_icon-more:hover .slds-button__icon, .slds-button_icon-more:focus .slds-button__icon,
+.slds-button_icon-more:hover .slds-button__icon,
+.slds-button_icon-more:focus .slds-button__icon,
 .slds-button--icon-more:hover .slds-button__icon,
 .slds-button--icon-more:focus .slds-button__icon {
-  fill: #0070d2; }
+  fill: #0070d2;
+}
 
 .slds-button_icon-more:active .slds-button__icon,
 .slds-button--icon-more:active .slds-button__icon {
-  fill: #005fb2; }
+  fill: #005fb2;
+}
 
 .slds-button_icon-more[disabled],
 .slds-button--icon-more[disabled] {
-  cursor: default; }
+  cursor: default;
+}
 
 .slds-button_icon-more[disabled] .slds-button__icon,
 .slds-button--icon-more[disabled] .slds-button__icon {
-  fill: #dddbda; }
+  fill: #dddbda;
+}
 
 /**
  * @summary Creates a button menu icon container that has no borders
@@ -1325,7 +1569,8 @@ a.slds-button--inverse:focus {
   width: auto;
   line-height: 1.875rem;
   padding: 0 0.5rem;
-  vertical-align: middle; }
+  vertical-align: middle;
+}
 
 /**
  * @summary A parent class must be put on anything that contains a .slds-button__icon_hint so that the child reacts when the parent is hovered.
@@ -1334,7 +1579,8 @@ a.slds-button--inverse:focus {
  */
 .slds-button__icon_hint,
 .slds-button__icon--hint {
-  fill: #b0adab; }
+  fill: #b0adab;
+}
 
 /**
  * @summary A parent class must be put on anything that contains a .slds-button__icon_inverse-hint so that the child reacts when the parent is hovered. This is for a dark background.
@@ -1343,35 +1589,46 @@ a.slds-button--inverse:focus {
  */
 .slds-button__icon_inverse-hint,
 .slds-button__icon--inverse-hint {
-  fill: rgba(255, 255, 255, 0.5); }
+  fill: rgba(255, 255, 255, 0.5);
+}
 
 .slds-hint-parent .slds-button_icon-border-inverse,
 .slds-hint-parent .slds-button--icon-border-inverse {
-  border-color: rgba(255, 255, 255, 0.5); }
+  border-color: rgba(255, 255, 255, 0.5);
+}
 
 .slds-hint-parent .slds-button_icon-border-inverse:focus,
 .slds-hint-parent .slds-button--icon-border-inverse:focus {
-  border-color: rgba(255, 255, 255, 0.75); }
+  border-color: rgba(255, 255, 255, 0.75);
+}
 
 .slds-hint-parent:hover .slds-button_icon-border-inverse,
-.slds-hint-parent:hover .slds-button--icon-border-inverse, .slds-hint-parent:focus .slds-button_icon-border-inverse,
+.slds-hint-parent:hover .slds-button--icon-border-inverse,
+.slds-hint-parent:focus .slds-button_icon-border-inverse,
 .slds-hint-parent:focus .slds-button--icon-border-inverse {
-  border-color: rgba(255, 255, 255, 0.75); }
+  border-color: rgba(255, 255, 255, 0.75);
+}
 
 .slds-hint-parent:hover .slds-button__icon_hint,
-.slds-hint-parent:hover .slds-button__icon--hint, .slds-hint-parent:focus .slds-button__icon_hint,
+.slds-hint-parent:hover .slds-button__icon--hint,
+.slds-hint-parent:focus .slds-button__icon_hint,
 .slds-hint-parent:focus .slds-button__icon--hint {
-  fill: #706e6b; }
+  fill: #706e6b;
+}
 
 .slds-hint-parent:hover .slds-button__icon_inverse-hint,
-.slds-hint-parent:hover .slds-button__icon--inverse-hint, .slds-hint-parent:focus .slds-button__icon_inverse-hint,
+.slds-hint-parent:hover .slds-button__icon--inverse-hint,
+.slds-hint-parent:focus .slds-button__icon_inverse-hint,
 .slds-hint-parent:focus .slds-button__icon--inverse-hint {
-  fill: rgba(255, 255, 255, 0.75); }
+  fill: rgba(255, 255, 255, 0.75);
+}
 
 .slds-hint-parent:hover .slds-button:disabled .slds-button__icon_hint,
-.slds-hint-parent:hover .slds-button:disabled .slds-button__icon--hint, .slds-hint-parent:focus .slds-button:disabled .slds-button__icon_hint,
+.slds-hint-parent:hover .slds-button:disabled .slds-button__icon--hint,
+.slds-hint-parent:focus .slds-button:disabled .slds-button__icon_hint,
 .slds-hint-parent:focus .slds-button:disabled .slds-button__icon--hint {
-  fill: currentColor; }
+  fill: currentColor;
+}
 
 /**
  * @summary Creates a brand button icon
@@ -1408,9 +1665,12 @@ a.slds-button--inverse:focus {
 .slds-button_icon-border-filled.slds-is-selected {
   background-color: #0070d2;
   border-color: #0070d2;
-  color: white; }
+  color: white;
+}
 
-.slds-button_icon-container.slds-is-selected:link, .slds-button_icon-container.slds-is-selected:visited, .slds-button_icon-container.slds-is-selected:active,
+.slds-button_icon-container.slds-is-selected:link,
+.slds-button_icon-container.slds-is-selected:visited,
+.slds-button_icon-container.slds-is-selected:active,
 .slds-button--icon-container.slds-is-selected:link,
 .slds-button--icon-container.slds-is-selected:visited,
 .slds-button--icon-container.slds-is-selected:active,
@@ -1423,9 +1683,11 @@ a.slds-button--inverse:focus {
 .slds-button_icon-border-filled.slds-is-selected:link,
 .slds-button_icon-border-filled.slds-is-selected:visited,
 .slds-button_icon-border-filled.slds-is-selected:active {
-  color: white; }
+  color: white;
+}
 
-.slds-button_icon-container.slds-is-selected:hover, .slds-button_icon-container.slds-is-selected:focus,
+.slds-button_icon-container.slds-is-selected:hover,
+.slds-button_icon-container.slds-is-selected:focus,
 .slds-button--icon-container.slds-is-selected:hover,
 .slds-button--icon-container.slds-is-selected:focus,
 .slds-button_icon-border.slds-is-selected:hover,
@@ -1436,7 +1698,8 @@ a.slds-button--inverse:focus {
 .slds-button_icon-border-filled.slds-is-selected:focus {
   background-color: #005fb2;
   border-color: #005fb2;
-  color: white; }
+  color: white;
+}
 
 .slds-button_icon-container.slds-is-selected:active,
 .slds-button--icon-container.slds-is-selected:active,
@@ -1444,16 +1707,19 @@ a.slds-button--inverse:focus {
 .slds-button--icon-border.slds-is-selected:active,
 .slds-button_icon-border-filled.slds-is-selected:active {
   background-color: #005fb2;
-  border-color: #005fb2; }
+  border-color: #005fb2;
+}
 
 .slds-button_icon-container.slds-is-selected .slds-button__icon,
 .slds-button--icon-container.slds-is-selected .slds-button__icon,
 .slds-button_icon-border.slds-is-selected .slds-button__icon,
 .slds-button--icon-border.slds-is-selected .slds-button__icon,
 .slds-button_icon-border-filled.slds-is-selected .slds-button__icon {
-  fill: white; }
+  fill: white;
+}
 
-.slds-button_icon-container.slds-is-selected:hover .slds-button__icon, .slds-button_icon-container.slds-is-selected:focus .slds-button__icon,
+.slds-button_icon-container.slds-is-selected:hover .slds-button__icon,
+.slds-button_icon-container.slds-is-selected:focus .slds-button__icon,
 .slds-button--icon-container.slds-is-selected:hover .slds-button__icon,
 .slds-button--icon-container.slds-is-selected:focus .slds-button__icon,
 .slds-button_icon-border.slds-is-selected:hover .slds-button__icon,
@@ -1462,8 +1728,8 @@ a.slds-button--inverse:focus {
 .slds-button--icon-border.slds-is-selected:focus .slds-button__icon,
 .slds-button_icon-border-filled.slds-is-selected:hover .slds-button__icon,
 .slds-button_icon-border-filled.slds-is-selected:focus .slds-button__icon {
-  fill: white; }
-
+  fill: white;
+}
 
 /**
  * @summary Truncates text at 66% of its parent container
@@ -1473,7 +1739,8 @@ a.slds-button--inverse:focus {
  */
 .slds-truncate_container_66,
 .slds-truncate_container--66 {
-  max-width: 66%; }
+  max-width: 66%;
+}
 
 /**
  * The truncation class can be used on an element, or the truncation include can be added to an existing class.
@@ -1488,6 +1755,60 @@ a.slds-button--inverse:focus {
   overflow-wrap: break-word;
   word-wrap: break-word;
   -webkit-hyphens: auto;
-      -ms-hyphens: auto;
-          hyphens: auto; }
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
 
+/**
+ * @summary Makes links and buttons appear as regular text
+ *
+ * @selector .slds-text-link_reset
+ * @modifier
+ */
+.slds-text-link_reset,
+.slds-text-link--reset {
+  cursor: pointer;
+  line-height: inherit;
+  font-size: inherit;
+}
+
+.slds-text-link_reset:active,
+.slds-text-link--reset:active {
+  outline: none;
+}
+
+.slds-text-link_reset,
+.slds-text-link_reset:active,
+.slds-text-link_reset:focus,
+.slds-text-link_reset:hover,
+.slds-text-link--reset,
+.slds-text-link--reset:active,
+.slds-text-link--reset:focus,
+.slds-text-link--reset:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/**
+ * Used in combination with `.slds-text-link--reset`, you can apply the class `.slds-text-link` to a child element to reset its styles back to that of a link.
+ *
+ * @summary Makes text inside of .slds-text-link_reset to appear as a link.
+ *
+ * @selector .slds-text-link
+ * @modifier
+ */
+.slds-text-link {
+  color: #0070d2;
+  text-decoration: none;
+  transition: color 0.1s linear;
+}
+
+.slds-text-link:hover,
+.slds-text-link:focus {
+  text-decoration: underline;
+  color: #005fb2;
+}
+
+.slds-text-link:active {
+  color: #005fb2;
+}
