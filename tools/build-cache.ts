@@ -1,7 +1,8 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 
-import { create as createCache, Cache, RootSelectors } from "../src/cache";
+import { create as createCache } from "../src/cache";
+import { Cache, RootSelectors } from "../src/types";
 import { create as createUtil } from "../src/util";
 
 const css = fs.readFileSync(

@@ -6,7 +6,7 @@ import cache from '../dist/cache.json';
 // @ts-ignore
 import ui from '@salesforce-ux/design-system/ui.json';
 
-import { Cache } from './cache';
+import { Cache } from './types';
 import { Slicer, create as createSlicer } from './slicer';
 import { Util, create as createUtil } from './util';
 
