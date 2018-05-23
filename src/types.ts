@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import { Rule as PostCssRule, AtRule as PostCssAtRule } from 'postcss';
 
 export type ComponentName = string;
 
@@ -21,3 +22,17 @@ export interface CacheItem {
   name: string;
   css: string;
 }
+
+export type AtRuleAdapter = {
+  selector: String;
+  type: String;
+  rule: PostCssAtRule;
+};
+export type Rule = PostCssRule | AtRuleAdapter;
+
+export type TempCache = Immutable.OrderedMap<
+  ComponentName,
+  Immutable.List<Rule>
+>;
+
+export type CacheBuildState = Immutable.Map<String, TempCache | boolean>;

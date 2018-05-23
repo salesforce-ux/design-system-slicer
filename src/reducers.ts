@@ -1,8 +1,12 @@
 import Immutable from 'immutable';
 
-import postcss, { Rule as PostCssRule } from 'postcss';
-
-import { ComponentName, ComponentLookup, Selector } from './types';
+import {
+  ComponentName,
+  ComponentLookup,
+  Selector,
+  Rule,
+  CacheBuildState
+} from './types';
 import escapeRegExp from 'lodash.escaperegexp';
 
 export type ReducingFn<S = any> = (state: S, value: any) => S;
@@ -38,6 +42,16 @@ function findRootSelector(
   );
 }
 
+const miscReducer: Reducer = reducer((acc, rule) => {
+  if (!acc.get('changed')) console.log("NOT CHAGNGED'", rule.selector);
+  return (acc.get('changed')
+    ? acc
+    : acc.updateIn(['result', 'misc'], (xs: Immutable.List<Rule>) =>
+        (xs || Immutable.List()).push(rule)
+      )
+  ).set('changed', false);
+});
+
 const setFirstSelectorReducer: Reducer = reducer(
   (acc, rule) =>
     acc.get('firstSelectorFound')
@@ -48,15 +62,17 @@ const setFirstSelectorReducer: Reducer = reducer(
 const normalizeReducer: Reducer = reducer(
   (acc, rule) =>
     !acc.get('firstSelectorFound')
-      ? acc.updateIn(
-          ['result', 'normalize'],
-          (maybeRules: Immutable.List<PostCssRule> | undefined) => {
-            let rules = maybeRules
-              ? (maybeRules as Immutable.List<PostCssRule>)
-              : Immutable.List();
-            return rules.push(rule);
-          }
-        )
+      ? acc
+          .updateIn(
+            ['result', 'normalize'],
+            (maybeRules: Immutable.List<Rule> | undefined) => {
+              let rules = maybeRules
+                ? (maybeRules as Immutable.List<Rule>)
+                : Immutable.List();
+              return rules.push(rule);
+            }
+          )
+          .set('changed', true)
       : acc
 );
 
@@ -71,20 +87,22 @@ function isComplexSelector(selector: Selector): Boolean {
 }
 
 function insertRuleToCache(
-  acc: Immutable.OrderedMap<ComponentName, Immutable.List<PostCssRule>>,
+  acc: CacheBuildState,
   selector: Selector | undefined,
-  rule: PostCssRule
-): Immutable.OrderedMap<ComponentName, Immutable.List<PostCssRule>> {
+  rule: Rule
+): CacheBuildState {
   return selector
-    ? acc.updateIn(
-        ['result', selector],
-        (maybeRules: Immutable.List<PostCssRule> | undefined) => {
-          let rules = maybeRules
-            ? (maybeRules as Immutable.List<PostCssRule>)
-            : Immutable.List();
-          return rules.push(rule);
-        }
-      )
+    ? acc
+        .updateIn(
+          ['result', selector],
+          (maybeRules: Immutable.List<Rule> | undefined) => {
+            let rules = maybeRules
+              ? (maybeRules as Immutable.List<Rule>)
+              : Immutable.List();
+            return rules.push(rule);
+          }
+        )
+        .set('changed', true)
     : acc;
 }
 
@@ -113,9 +131,32 @@ function componentReducer(
   );
 }
 
+function atRuleReducer(
+  rootSelectors: Immutable.List<Selector>,
+  lookup: ComponentLookup
+): Reducer {
+  return reducer((acc, rule) => {
+    if (rule.type === 'atrule') {
+      const firstNodeSelector = rule.rule.nodes && rule.rule.nodes[0].selector;
+      return (
+        findRootSelector(rootSelectors, firstNodeSelector || '')
+          .map(key => lookup.get(key))
+          .map(foundComponent =>
+            insertRuleToCache(acc, foundComponent, rule.rule)
+          )
+          .first() || acc
+      ).set('changed', true);
+    } else {
+      return acc;
+    }
+  });
+}
+
 export {
   setFirstSelectorReducer,
   normalizeReducer,
   utilReducer,
-  componentReducer
+  componentReducer,
+  atRuleReducer,
+  miscReducer
 };

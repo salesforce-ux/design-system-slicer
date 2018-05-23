@@ -1812,3 +1812,297 @@ a.slds-button--inverse:focus {
 .slds-text-link:active {
   color: #005fb2;
 }
+
+/**
+ * @name base
+ * @selector .slds-form
+ * @restrict form, div, fieldset
+ * @variant
+ */
+/**
+ * Vertically aligns form label and control, provides spacing between form elements
+ *
+ * @selector .slds-form_stacked
+ * @restrict .slds-form:not(.slds-form_compound)
+ * @modifier
+ * @group layout
+ */
+.slds-form_stacked .slds-form-element,
+.slds-form--stacked .slds-form-element {
+  display: block;
+}
+
+.slds-form_stacked .slds-form-element + .slds-form-element,
+.slds-form--stacked .slds-form-element + .slds-form-element {
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 30em) {
+  .slds-form_stacked .slds-form-element + .slds-form-element,
+  .slds-form--stacked .slds-form-element + .slds-form-element {
+    margin-top: 0.5rem;
+  }
+}
+
+.slds-form_stacked .slds-form-element .slds-checkbox,
+.slds-form_stacked .slds-form-element .slds-radio,
+.slds-form--stacked .slds-form-element .slds-checkbox,
+.slds-form--stacked .slds-form-element .slds-radio {
+  display: block;
+}
+
+/**
+ * Horizontally aligns a single form label and control on the same line
+ *
+ * @selector .slds-form_horizontal
+ * @restrict .slds-form:not(.slds-form_compound)
+ * @modifier
+ * @group layout
+ */
+@media (min-width: 48em) {
+  .slds-form_horizontal,
+  .slds-form--horizontal {
+    text-align: right;
+  }
+}
+
+@media (min-width: 48em) {
+  .slds-form_horizontal .slds-form-element > .slds-form-element__legend,
+  .slds-form_horizontal .slds-form-element > .slds-form-element__label,
+  .slds-form--horizontal .slds-form-element > .slds-form-element__legend,
+  .slds-form--horizontal .slds-form-element > .slds-form-element__label {
+    float: left;
+    text-align: right;
+    display: inline-block;
+    width: 33%;
+    vertical-align: top;
+    position: relative;
+    top: 0.1875rem;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}
+
+.slds-form_horizontal .slds-form-element + .slds-form-element,
+.slds-form--horizontal .slds-form-element + .slds-form-element {
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 30em) {
+  .slds-form_horizontal .slds-form-element + .slds-form-element,
+  .slds-form--horizontal .slds-form-element + .slds-form-element {
+    margin-top: 0.5rem;
+  }
+}
+
+.slds-form_horizontal .slds-form-element__control,
+.slds-form--horizontal .slds-form-element__control {
+  width: 100%;
+}
+
+@media (min-width: 48em) {
+  .slds-form_horizontal .slds-form-element__control,
+  .slds-form--horizontal .slds-form-element__control {
+    width: 66%;
+    display: inline-block;
+    text-align: left;
+  }
+}
+
+/**
+ * Horizontally align multiple form elements on the same axis
+ *
+ * @selector .slds-form_inline
+ * @restrict .slds-form
+ */
+.slds-form_inline .slds-form-element,
+.slds-form_inline .slds-form-element__label,
+.slds-form_inline .slds-form-element__control,
+.slds-form--inline .slds-form-element,
+.slds-form--inline .slds-form-element__label,
+.slds-form--inline .slds-form-element__control {
+  display: block;
+}
+
+.slds-form_inline .slds-form-element + .slds-form-element,
+.slds-form--inline .slds-form-element + .slds-form-element {
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 30em) {
+  .slds-form_inline .slds-form-element,
+  .slds-form--inline .slds-form-element {
+    margin-right: 0.5rem;
+  }
+  .slds-form_inline .slds-form-element + .slds-form-element,
+  .slds-form--inline .slds-form-element + .slds-form-element {
+    margin-top: 0;
+  }
+  .slds-form_inline .slds-form-element,
+  .slds-form_inline .slds-form-element__label,
+  .slds-form_inline .slds-form-element__control,
+  .slds-form--inline .slds-form-element,
+  .slds-form--inline .slds-form-element__label,
+  .slds-form--inline .slds-form-element__control {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0;
+  }
+}
+
+/**
+ * @summary Creates a form that consists of multiple form groups
+ *
+ * @name compound
+ * @selector .slds-form_compound
+ * @restrict .slds-form
+ * @variant
+ */
+.slds-form_compound .slds-form-element__row,
+.slds-form--compound .slds-form-element__row {
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.slds-form_compound .slds-form-element__row + .slds-form-element__row,
+.slds-form--compound .slds-form-element__row + .slds-form-element__row {
+  clear: both;
+}
+
+.slds-form_compound
+  .slds-form-element__row
+  .slds-form-element
+  + .slds-form-element,
+.slds-form--compound
+  .slds-form-element__row
+  .slds-form-element
+  + .slds-form-element {
+  margin-left: 0.5rem;
+}
+
+.slds-form_compound .slds-form-element__control,
+.slds-form--compound .slds-form-element__control {
+  position: relative;
+}
+
+.slds-form_compound .slds-form-element__control + .slds-form-element__control,
+.slds-form--compound .slds-form-element__control + .slds-form-element__control {
+  padding-left: 0.5rem;
+}
+
+/**
+ * A discussion feed consists of a list of posts. A `.slds-feed__item` contains a post and comments related to that post.
+ *
+ * @name base
+ * @selector .slds-feed
+ * @restrict div
+ * @support dev-ready
+ * @variant
+ */
+.slds-feed {
+  position: relative;
+  max-width: 49rem;
+  margin: auto;
+  /**
+   * @selector .slds-feed__list
+   * @restrict .slds-feed ul
+   * @required
+   */
+  /**
+   * @selector .slds-feed__item
+   * @restrict .slds-feed__list li
+   * @required
+   */
+}
+
+.slds-feed__list {
+  margin: 0;
+  padding: 0;
+}
+
+.slds-feed__item {
+  padding: 0.5rem 0;
+}
+
+@media (min-width: 48em) {
+  .slds-feed__item {
+    padding: 0.75rem 0;
+  }
+}
+
+.slds-comment__content {
+  padding: 0.25rem 0;
+}
+
+.slds-comment__replies {
+  padding-top: 1rem;
+  margin-left: 3.75rem;
+}
+
+.slds-comment__replies > :last-child,
+.slds-comment__replies > :last-child .slds-comment {
+  padding-bottom: 0;
+}
+
+.slds-comment__replies > :last-child:before,
+.slds-comment__replies > :last-child .slds-comment:before {
+  content: none;
+}
+
+.slds-comment__replies .slds-comment {
+  position: relative;
+  margin-bottom: 0;
+  padding-bottom: 1rem;
+}
+
+.slds-comment__replies .slds-comment:before {
+  content: "";
+  background: #dddbda;
+  height: 100%;
+  width: 1px;
+  position: absolute;
+  left: 1.125rem;
+  top: 0;
+  bottom: 0;
+  margin-left: -0.5px;
+  z-index: -1;
+}
+
+.slds-comment__replies .slds-avatar {
+  border: 2px solid white;
+}
+
+.slds-tags {
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.slds-tags__list {
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.slds-tags__item {
+  margin-left: 0.25rem;
+}
+
+.slds-tags__item:after {
+  content: ", ";
+}
+
+.slds-tags__item:last-child:after {
+  content: none;
+}
+
+.slds-attachments {
+  padding-bottom: 0.5rem;
+}
+
+.slds-attachments:empty {
+  padding: 0;
+}
+
+.slds-attachments__item + .slds-attachments__item {
+  margin-top: 1rem;
+}

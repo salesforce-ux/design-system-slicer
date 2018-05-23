@@ -34,7 +34,14 @@ beforeEach(async () => {
   cache = await createCache(
     {
       buttons: [".slds-button", "slds-button_neutral"],
-      datepickers: [".slds-datepicker"]
+      datepickers: [".slds-datepicker"],
+      "form-layout": [
+        ".slds-form",
+        ".slds-form_inline",
+        ".slds-form_compound",
+        ".slds-form_stacked",
+        ".slds-form_horizontal"
+      ]
     },
     [
       ".slds-hyphenate",
@@ -64,7 +71,7 @@ it("has a complex utils slice", () => {
   expect(result).not.toMatch(".slds-button");
 });
 
-it("has an utils slice", () => {
+it("has a utils slice", () => {
   const slicer = createSlicer(cache);
   const result = slicer.utils(".slds-truncate_container_66");
 
@@ -72,6 +79,20 @@ it("has an utils slice", () => {
   expect(result).not.toMatch(".slds-hyphenate");
   expect(result).not.toMatch("html");
   expect(result).not.toMatch(".slds-button");
+});
+
+xit("has a utils slice thats complex on the other end", () => {});
+xit("has a utils atrules", () => {});
+
+xit("both bem and otherwise", () => {});
+
+it("forms slice", () => {
+  const slicer = createSlicer(cache);
+  const result = slicer.sliceForComponents("form-layout");
+
+  expect(result).toMatch(".slds-form");
+  expect(result).toMatch(".slds-form_horizontal");
+  expect(result).toMatch("@media (min-width: 48em)");
 });
 
 it("buttons slice", () => {
@@ -85,6 +106,15 @@ it("buttons slice", () => {
 });
 
 it("date-picker slice", () => {
+  const slicer = createSlicer(cache);
+  const result = slicer.sliceForComponents("datepickers");
+
+  expect(result).toMatch(".slds-datepicker");
+  expect(result).not.toMatch(".slds-button");
+  expect(result).not.toMatch(".slds-truncate_container_66");
+});
+
+it("gets at rules", () => {
   const slicer = createSlicer(cache);
   const result = slicer.sliceForComponents("datepickers");
 

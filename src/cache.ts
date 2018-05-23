@@ -6,6 +6,8 @@ import Immutable from 'immutable';
 import postcss, {
   Root as PostCssRoot,
   Rule as PostCssRule,
+  AtRule as PostCssAtRule,
+  ChildNode as PostCssChildNode,
   Result as PostCssResult
 } from 'postcss';
 
@@ -14,7 +16,9 @@ import {
   setFirstSelectorReducer,
   normalizeReducer,
   utilReducer,
-  componentReducer
+  componentReducer,
+  atRuleReducer,
+  miscReducer
 } from './reducers';
 
 import {
@@ -22,34 +26,53 @@ import {
   ComponentLookup,
   Selector,
   RootSelectors,
-  Cache
+  CacheBuildState,
+  Cache,
+  AtRuleAdapter,
+  Rule,
+  TempCache
 } from './types';
 
-type CacheBuildState = {
-  result: Immutable.OrderedMap<ComponentName, Immutable.List<PostCssRule>>;
-  firstSelectorFound: boolean;
-};
+import _ from 'lodash';
 
-function visitorPlugin(visitor: (rule: PostCssRule) => void) {
+function atRuleToRule(atrule: PostCssAtRule): AtRuleAdapter {
+  return { selector: 'atrule', type: 'atrule', rule: atrule };
+}
+
+function handleRule(
+  visitor: (rule: Rule) => void,
+  node: PostCssChildNode
+): void {
+  switch (node.type) {
+    case 'comment':
+      node.remove();
+      break;
+    case 'rule':
+      visitor(node);
+      break;
+    case 'atrule':
+      visitor(atRuleToRule(node));
+      break;
+  }
+}
+
+function visitorPlugin(visitor: (rule: Rule) => void) {
   return (root: PostCssRoot, result?: PostCssResult): void => {
     // root.walkAtRules(r => r.remove());
-    // root.walkComments(c => c.remove());
-    root.walkRules(r => visitor(r));
+    root.walk(r => handleRule(visitor, r));
+    //root.walkRules(r => visitor(r));
   };
 }
 
-function walkCss(
-  css: string,
-  visitor: (rule: PostCssRule) => void
-): Promise<string> {
+function walkCss(css: string, visitor: (rule: Rule) => void): Promise<string> {
   return postcss()
     .use(visitorPlugin(visitor))
     .process(css, { from: undefined })
     .then(result => result.css);
 }
 
-function allRules(css: string): Immutable.List<PostCssRule> {
-  const acc: PostCssRule[] = [];
+function allRules(css: string): Immutable.List<Rule> {
+  const acc: Rule[] = [];
   walkCss(css, rule => acc.push(rule));
   return Immutable.List(acc);
 }
@@ -57,26 +80,29 @@ function allRules(css: string): Immutable.List<PostCssRule> {
 function build(
   lookup: ComponentLookup,
   utilities: Immutable.Set<Selector>,
-  rules: Immutable.List<PostCssRule>
+  rules: Immutable.List<Rule>
 ): Cache {
   let rootSelectors = Immutable.List(lookup.keys());
 
   const reduction: Reducer = setFirstSelectorReducer
     .concat(normalizeReducer)
     .concat(utilReducer(utilities))
-    .concat(componentReducer(rootSelectors, lookup));
+    .concat(componentReducer(rootSelectors, lookup))
+    .concat(atRuleReducer(rootSelectors, lookup))
+    .concat(miscReducer);
 
-  const state: CacheBuildState = rules
+  const state: TempCache = rules
     .reduce(
       reduction.run,
       Immutable.Map({
         result: Immutable.OrderedMap(),
-        firstSelectorFound: false
+        firstSelectorFound: false,
+        changed: false
       })
     )
-    .toObject();
+    .get('result');
 
-  return state.result.reduce<Cache>(
+  return state.reduce<Cache>(
     (cache, rules, name) =>
       cache.concat({ name, css: rules.map(r => r.toString()).join('\n') }),
     []
