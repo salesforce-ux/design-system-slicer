@@ -44,7 +44,7 @@ const extractMatchesFromSelector = (
     .toSet();
 
 const classNameRegex = /(\.[a-zA-Z\-\_\d]+)/;
-const tagNameRegex = /^(\w+[^\W])/;
+const tagNameRegex = /^([A-Za-z]+[^\W])/;
 
 const classNames = (selector: Selector): Immutable.Set<Selector> =>
   extractMatchesFromSelector(selector, classNameRegex);
@@ -85,7 +85,7 @@ const classNameReducer: Reducer = reducer((acc, rule) => {
 
 const atRuleReducer: Reducer = reducer(
   (acc, rule) =>
-    rule.type === 'atrule'
+    rule.type === 'atrule' && rule.rule.name === 'media'
       ? (rule.rule.nodes || [])
           .filter((n: Rule) => n.selector)
           .reduce((a: Immutable.List<CacheItem>, subRule: Rule) => {

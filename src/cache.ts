@@ -33,7 +33,7 @@ import {
 import _ from 'lodash';
 
 function atRuleToRule(atrule: PostCssAtRule): AtRuleAdapter {
-  return { selector: 'atrule', type: 'atrule', rule: atrule };
+  return { selector: '', type: 'atrule', rule: atrule };
 }
 
 function handleRule(

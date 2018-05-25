@@ -38,10 +38,15 @@ let components = selectors.map(x => util.componentsForSelector(x));
 const cleanComps = filterUnusedComponents(components);
 // => ['datepickers', 'buttons']
 
+const allSelectors = cleanComps.reduce(
+  (acc, c) => acc.concat(util.selectorsForComponent(c)),
+  []
+);
+console.log(allSelectors);
+
 let css = slicer.normalize();
-css += slicer.sliceForComponents(...cleanComps);
-css += slicer.utils(...selectors.filter(s => util.isUtility(s)));
-console.log(css);
+css += slicer.slice(...allSelectors);
+//console.log(css);
 
 let rootSelectors = cleanComps.map(x => util.rootSelectors(x));
 // [ [ '.slds-datepicker' ],
