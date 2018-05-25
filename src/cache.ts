@@ -13,10 +13,8 @@ import postcss, {
 
 import {
   Reducer,
-  setFirstSelectorReducer,
-  normalizeReducer,
-  utilReducer,
-  componentReducer,
+  htmlReducer,
+  classNameReducer,
   atRuleReducer,
   miscReducer
 } from './reducers';
@@ -29,8 +27,7 @@ import {
   CacheBuildState,
   Cache,
   AtRuleAdapter,
-  Rule,
-  TempCache
+  Rule
 } from './types';
 
 import _ from 'lodash';
@@ -58,9 +55,7 @@ function handleRule(
 
 function visitorPlugin(visitor: (rule: Rule) => void) {
   return (root: PostCssRoot, result?: PostCssResult): void => {
-    // root.walkAtRules(r => r.remove());
     root.walk(r => handleRule(visitor, r));
-    //root.walkRules(r => visitor(r));
   };
 }
 
@@ -71,60 +66,24 @@ function walkCss(css: string, visitor: (rule: Rule) => void): Promise<string> {
     .then(result => result.css);
 }
 
-function allRules(css: string): Immutable.List<Rule> {
+function allRules(css: string): Promise<Immutable.List<Rule>> {
   const acc: Rule[] = [];
-  walkCss(css, rule => acc.push(rule));
-  return Immutable.List(acc);
+  return walkCss(css, rule => acc.push(rule)).then(() => Immutable.List(acc));
 }
 
-function build(
-  lookup: ComponentLookup,
-  utilities: Immutable.Set<Selector>,
-  rules: Immutable.List<Rule>
-): Cache {
-  let rootSelectors = Immutable.List(lookup.keys());
+// order matters
+const reduction: Reducer = atRuleReducer
+  .concat(htmlReducer)
+  .concat(classNameReducer)
+  .concat(miscReducer);
 
-  const reduction: Reducer = setFirstSelectorReducer
-    .concat(normalizeReducer)
-    .concat(utilReducer(utilities))
-    .concat(componentReducer(rootSelectors, lookup))
-    .concat(atRuleReducer(rootSelectors, lookup))
-    .concat(miscReducer);
-
-  const state: TempCache = rules
-    .reduce(
-      reduction.run,
-      Immutable.Map({
-        result: Immutable.OrderedMap(),
-        firstSelectorFound: false,
-        changed: false
-      })
-    )
-    .get('result');
-
-  return state.reduce<Cache>(
-    (cache, rules, name) =>
-      cache.concat({ name, css: rules.map(r => r.toString()).join('\n') }),
-    []
-  );
+function build(rules: Immutable.List<Rule>): Cache {
+  return rules.reduce(reduction.run, Immutable.List());
 }
-
-function flip<T, U>(
-  map: Immutable.Map<T, Immutable.List<U>>
-): Immutable.Map<U, T> {
-  return map.reduce(
-    (acc, values, key) => values.reduce((a, value) => a.set(value, key), acc),
-    Immutable.Map()
-  );
-}
-
 export function create(
   rootSelectors: RootSelectors,
   utilities: string[],
   css: string
 ): Promise<Cache> {
-  return Promise.resolve(rootSelectors)
-    .then(Immutable.fromJS)
-    .then(rootSelectors => flip<string, string>(rootSelectors))
-    .then(lookup => build(lookup, Immutable.Set(utilities), allRules(css)));
+  return allRules(css).then(build);
 }

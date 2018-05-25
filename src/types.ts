@@ -19,20 +19,16 @@ export interface RootSelectors {
 export type Cache = CacheItem[];
 
 export interface CacheItem {
-  name: string;
+  selectors: string[];
+  type: string;
   css: string;
 }
 
 export type AtRuleAdapter = {
-  selector: String;
-  type: String;
+  selector: string;
+  type: string;
   rule: PostCssAtRule;
 };
 export type Rule = PostCssRule | AtRuleAdapter;
 
-export type TempCache = Immutable.OrderedMap<
-  ComponentName,
-  Immutable.List<Rule>
->;
-
-export type CacheBuildState = Immutable.Map<String, TempCache | boolean>;
+export type CacheBuildState = Immutable.Map<string, Cache>;

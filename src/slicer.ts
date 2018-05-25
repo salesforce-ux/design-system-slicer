@@ -5,10 +5,18 @@ import { Cache, Selector } from './types';
 
 export type Css = string;
 
+function uniq<T>(xs: Array<T>): Array<T> {
+  return [...Array.from(new Set(xs))];
+}
+
 export function sliceFor(cache: Cache, ...keys: string[]): Css {
-  return cache
-    .filter(slice => keys.includes(slice.name))
-    .reduce((css, slice) => css + slice.css, '');
+  return uniq(
+    cache
+      .filter(slice =>
+        slice.selectors.some(sel => keys.some(key => sel.startsWith(key)))
+      )
+      .map(slice => slice.css)
+  ).join('\n');
 }
 
 // We only support [class*=] right now
@@ -26,22 +34,29 @@ export class Slicer {
   constructor(cache: Cache) {
     this.cache = cache;
   }
+  slice(...selectors: string[]): Css {
+    return sliceFor(this.cache, ...selectors);
+  }
   sliceForComponents(...names: string[]): Css {
     return sliceFor(this.cache, ...names);
   }
   normalize(): Css {
-    return this.cache[0].css;
+    return this.cache
+      .filter(k => k.type === 'html')
+      .map(x => x.css)
+      .join('\n');
   }
 
   utils(...selectors: string[]): Css {
-    return this.cache
-      .filter(slice => {
-        const complex = selectorFromComplex(slice.name);
-        return complex
-          ? selectors.some(s => !!s.match(complex))
-          : selectors.includes(slice.name);
-      })
-      .reduce((css, slice) => css + slice.css, '');
+    return sliceFor(this.cache, ...selectors);
+    // return this.cache
+    //   .filter(slice => {
+    //     const complex = selectorFromComplex(slice.selectors);
+    //     return complex
+    //       ? selectors.some(s => !!s.match(complex))
+    //       : selectors.includes(slice.name);
+    //   })
+    //   .reduce((css, slice) => css + slice.css, "");
   }
 }
 

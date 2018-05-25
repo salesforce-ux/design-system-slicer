@@ -5,6 +5,8 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { create as createSlicer } from "../src/slicer";
+import ui from "./__fixtures__/ui.json";
+import { Util } from "../src/util";
 import { create as createCache } from "../src/cache";
 import { Cache } from "../src/types";
 
@@ -28,9 +30,11 @@ const css = fs
   .toString();
 
 let cache: Cache;
+let util: Util;
 
 // @ts-ignore
 beforeEach(async () => {
+  util = new Util(ui);
   cache = await createCache(
     {
       buttons: [".slds-button", "slds-button_neutral"],
@@ -61,7 +65,7 @@ it("has a normalize slice", () => {
   expect(result).not.toMatch(".slds");
 });
 
-it("has a complex utils slice", () => {
+it("has a utils slice with a complex annotation", () => {
   const slicer = createSlicer(cache);
   const result = slicer.utils(".slds-text-link");
 
@@ -73,7 +77,7 @@ it("has a complex utils slice", () => {
 
 it("has a utils slice", () => {
   const slicer = createSlicer(cache);
-  const result = slicer.utils(".slds-truncate_container_66");
+  const result = slicer.slice(".slds-truncate_container_66");
 
   expect(result).toMatch(".slds-truncate_container_66");
   expect(result).not.toMatch(".slds-hyphenate");
@@ -81,14 +85,24 @@ it("has a utils slice", () => {
   expect(result).not.toMatch(".slds-button");
 });
 
-xit("has a utils slice thats complex on the other end", () => {});
-xit("has a utils atrules", () => {});
+it("has a slice thats complex in the selector itself", () => {
+  const slicer = createSlicer(cache);
+  const result = slicer.slice(".slds-combobox__input");
+  console.log(result);
 
-xit("both bem and otherwise", () => {});
+  expect(result).toMatch('[class*="slds-input-has-icon--left"]');
+  expect(result).not.toMatch(".slds-hyphenate");
+  expect(result).not.toMatch("html");
+  expect(result).not.toMatch(".slds-button");
+});
+
+xit("has html atrules", () => {});
+xit("has nested atrules", () => {});
 
 it("forms slice", () => {
   const slicer = createSlicer(cache);
-  const result = slicer.sliceForComponents("form-layout");
+  const selectors = util.selectorsForComponent("form-layout");
+  const result = slicer.slice(...selectors);
 
   expect(result).toMatch(".slds-form");
   expect(result).toMatch(".slds-form_horizontal");
@@ -97,7 +111,8 @@ it("forms slice", () => {
 
 it("buttons slice", () => {
   const slicer = createSlicer(cache);
-  const result = slicer.sliceForComponents("buttons");
+  const selectors = util.selectorsForComponent("buttons");
+  const result = slicer.slice(...selectors);
 
   expect(result).toMatch(".slds-button");
   expect(result).toMatch("a.slds-button");
@@ -107,7 +122,8 @@ it("buttons slice", () => {
 
 it("date-picker slice", () => {
   const slicer = createSlicer(cache);
-  const result = slicer.sliceForComponents("datepickers");
+  const selectors = util.selectorsForComponent("datepickers");
+  const result = slicer.slice(...selectors);
 
   expect(result).toMatch(".slds-datepicker");
   expect(result).not.toMatch(".slds-button");
@@ -116,7 +132,8 @@ it("date-picker slice", () => {
 
 it("gets at rules", () => {
   const slicer = createSlicer(cache);
-  const result = slicer.sliceForComponents("datepickers");
+  const selectors = util.selectorsForComponent("datepickers");
+  const result = slicer.slice(...selectors);
 
   expect(result).toMatch(".slds-datepicker");
   expect(result).not.toMatch(".slds-button");

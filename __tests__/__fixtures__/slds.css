@@ -2106,3 +2106,18 @@ a.slds-button--inverse:focus {
 .slds-attachments__item + .slds-attachments__item {
   margin-top: 1rem;
 }
+
+/**
+ * Class to target styling the value of a combobox input
+ *
+ * @selector .slds-combobox__input-value
+ * @restrict .slds-combobox input
+ */
+[class*="slds-input-has-icon_left"] .slds-combobox__input[value],
+[class*="slds-input-has-icon--left"] .slds-combobox__input[value],
+[class*="slds-input-has-icon_left"]
+  .slds-combobox__input.slds-combobox__input-value,
+[class*="slds-input-has-icon--left"]
+  .slds-combobox__input.slds-combobox__input-value {
+  padding-left: 2.25rem;
+}

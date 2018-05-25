@@ -5,7 +5,8 @@ import {
   ComponentLookup,
   Selector,
   Rule,
-  CacheBuildState
+  CacheBuildState,
+  CacheItem
 } from './types';
 import escapeRegExp from 'lodash.escaperegexp';
 
@@ -20,30 +21,7 @@ const reducer = (run: ReducingFn): Reducer => ({
   concat: other => reducer((acc, rule) => other.run(run(acc, rule), rule))
 });
 
-function fromNullable<T>(value?: T): Immutable.List<T> {
-  return value ? Immutable.List.of(value) : Immutable.List();
-}
-
-function findRootSelector(
-  rootSelectors: Immutable.List<string>,
-  selector: string
-): Immutable.List<string> {
-  return fromNullable(
-    rootSelectors.find(rootSelector =>
-      selector
-        .split(',')
-        .some(
-          part =>
-            !!part.match(
-              new RegExp(`^(\\w+)?${escapeRegExp(rootSelector)}`, 'ig')
-            )
-        )
-    )
-  );
-}
-
 const miscReducer: Reducer = reducer((acc, rule) => {
-  if (!acc.get('changed')) console.log("NOT CHAGNGED'", rule.selector);
   return (acc.get('changed')
     ? acc
     : acc.updateIn(['result', 'misc'], (xs: Immutable.List<Rule>) =>
@@ -52,111 +30,75 @@ const miscReducer: Reducer = reducer((acc, rule) => {
   ).set('changed', false);
 });
 
-const setFirstSelectorReducer: Reducer = reducer(
-  (acc, rule) =>
-    acc.get('firstSelectorFound')
-      ? acc
-      : acc.set('firstSelectorFound', /^\./.test(rule.selector))
-);
+function firstCapture(str: String, regex: RegExp): string | undefined {
+  const found = str.match(regex);
+  return found != null ? found[1] : undefined;
+}
+const extractMatchesFromSelector = (
+  selector: Selector,
+  regex: RegExp
+): Immutable.Set<Selector> =>
+  selectorParts(selector)
+    .map(sel => firstCapture(sel, regex) || '')
+    .filter(x => x.length > 0)
+    .toSet();
 
-const normalizeReducer: Reducer = reducer(
-  (acc, rule) =>
-    !acc.get('firstSelectorFound')
-      ? acc
-          .updateIn(
-            ['result', 'normalize'],
-            (maybeRules: Immutable.List<Rule> | undefined) => {
-              let rules = maybeRules
-                ? (maybeRules as Immutable.List<Rule>)
-                : Immutable.List();
-              return rules.push(rule);
-            }
-          )
-          .set('changed', true)
-      : acc
-);
+const classNameRegex = /(\.[a-zA-Z\-\_\d]+)/;
+const tagNameRegex = /^(\w+[^\W])/;
+
+const classNames = (selector: Selector): Immutable.Set<Selector> =>
+  extractMatchesFromSelector(selector, classNameRegex);
+
+const tagNames = (selector: Selector): Immutable.Set<Selector> =>
+  extractMatchesFromSelector(selector, tagNameRegex).map(t => t.trim());
+
+const htmlReducer: Reducer = reducer((acc, rule) => {
+  const tags = tagNames(rule.selector);
+  return tags.count() > 0
+    ? acc.push({ selectors: tags, css: rule.toString(), type: 'html' })
+    : acc;
+});
 
 // We only support [class*=] right now
-function selectorFromComplex(selector: Selector): String | undefined {
-  const match = selector.match(/\[class\*='([a-zA-Z\-\_]+)'\]/);
-  return match != null ? match[1] : undefined;
+function selectorFromComplex(selector: Selector): string | undefined {
+  return firstCapture(selector, /\[class\*='([a-zA-Z\-\_]+)'\]/);
 }
 
 function isComplexSelector(selector: Selector): Boolean {
   return !!selectorFromComplex(selector);
 }
 
-function insertRuleToCache(
-  acc: CacheBuildState,
-  selector: Selector | undefined,
-  rule: Rule
-): CacheBuildState {
-  return selector
-    ? acc
-        .updateIn(
-          ['result', selector],
-          (maybeRules: Immutable.List<Rule> | undefined) => {
-            let rules = maybeRules
-              ? (maybeRules as Immutable.List<Rule>)
-              : Immutable.List();
-            return rules.push(rule);
-          }
-        )
-        .set('changed', true)
+function selectorParts(selector: Selector): Immutable.List<Selector> {
+  return Immutable.List(selector.split(',')).map(x => x.trim());
+}
+
+const classNameReducer: Reducer = reducer((acc, rule) => {
+  const classes = classNames(rule.selector);
+  return classes.count() > 0
+    ? acc.push({
+        selectors: classes.toArray(),
+        css: rule.toString(),
+        type: 'className'
+      })
     : acc;
-}
+});
 
-function utilReducer(utilities: Immutable.Set<Selector>): Reducer {
-  return reducer((acc, rule) => {
-    const foundUtil: Selector | undefined = utilities.find(
-      u =>
-        isComplexSelector(u)
-          ? rule.selector.match(selectorFromComplex(u))
-          : rule.selector.includes(u)
-    );
-    return insertRuleToCache(acc, foundUtil, rule);
-  });
-}
+const atRuleReducer: Reducer = reducer(
+  (acc, rule) =>
+    rule.type === 'atrule'
+      ? (rule.rule.nodes || [])
+          .filter((n: Rule) => n.selector)
+          .reduce((a: Immutable.List<CacheItem>, subRule: Rule) => {
+            const classes = classNames(subRule.selector);
+            return classes.count() > 0
+              ? a.push({
+                  selectors: classes.toArray(),
+                  css: rule.rule.toString(),
+                  type: 'atrule'
+                })
+              : a;
+          }, acc)
+      : acc
+);
 
-function componentReducer(
-  rootSelectors: Immutable.List<Selector>,
-  lookup: ComponentLookup
-): Reducer {
-  return reducer(
-    (acc, rule) =>
-      findRootSelector(rootSelectors, rule.selector)
-        .map(key => lookup.get(key))
-        .map(foundComponent => insertRuleToCache(acc, foundComponent, rule))
-        .first() || acc
-  );
-}
-
-function atRuleReducer(
-  rootSelectors: Immutable.List<Selector>,
-  lookup: ComponentLookup
-): Reducer {
-  return reducer((acc, rule) => {
-    if (rule.type === 'atrule') {
-      const firstNodeSelector = rule.rule.nodes && rule.rule.nodes[0].selector;
-      return (
-        findRootSelector(rootSelectors, firstNodeSelector || '')
-          .map(key => lookup.get(key))
-          .map(foundComponent =>
-            insertRuleToCache(acc, foundComponent, rule.rule)
-          )
-          .first() || acc
-      ).set('changed', true);
-    } else {
-      return acc;
-    }
-  });
-}
-
-export {
-  setFirstSelectorReducer,
-  normalizeReducer,
-  utilReducer,
-  componentReducer,
-  atRuleReducer,
-  miscReducer
-};
+export { htmlReducer, classNameReducer, atRuleReducer, miscReducer };

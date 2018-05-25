@@ -3,10 +3,6 @@
 
 import { UI, UINode, toList } from './ui';
 
-export function allSelectorsForComponent(node: UINode): string[] {
-  return node.annotations.selector.split(',').map(s => s.trim());
-}
-
 export function findBySelector(node: UINode, selector: string): UINode[] {
   return toList(node).filter(n => n.annotations.selector === selector);
 }
@@ -27,6 +23,11 @@ export class Util {
   }
   components(): Array<UINode> {
     return Object.keys(this.ui.components).map(key => this.ui.components[key]);
+  }
+  selectorsForComponent(key: string): Array<string> {
+    return toList(this.ui.components[key]).map(
+      s => s.annotations.selector || ''
+    );
   }
   componentsForSelector(selector: string): string[] {
     return Object.keys(this.ui.components).filter(

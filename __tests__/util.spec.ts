@@ -25,7 +25,8 @@ it("components", () => {
   expect(slicerUtil.components().map(c => c.annotations.name)).toEqual([
     "datepickers",
     "modals",
-    "buttons"
+    "buttons",
+    "form-layout"
   ]);
 });
 
