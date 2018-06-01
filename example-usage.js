@@ -40,7 +40,7 @@ const cleanComps = filterUnusedComponents(components);
 
 const allSelectors = cleanComps.reduce(
   (acc, c) => acc.concat(util.selectorsForComponent(c)),
-  []
+  selectors
 );
 console.log(allSelectors);
 

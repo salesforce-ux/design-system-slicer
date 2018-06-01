@@ -4,10 +4,10 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { create as createSlicer } from "../src/slicer";
+import { create as createSlicer } from "../src/run-time/slicer";
 import ui from "./__fixtures__/ui.json";
-import { Util } from "../src/util";
-import { create as createCache } from "../src/cache";
+import { Util } from "../src/run-time/util";
+import { create as createCache } from "../src/build-time/cache";
 import { Cache } from "../src/types";
 
 // ui.json
@@ -36,22 +36,6 @@ let util: Util;
 beforeEach(async () => {
   util = new Util(ui);
   cache = await createCache(
-    {
-      buttons: [".slds-button", "slds-button_neutral"],
-      datepickers: [".slds-datepicker"],
-      "form-layout": [
-        ".slds-form",
-        ".slds-form_inline",
-        ".slds-form_compound",
-        ".slds-form_stacked",
-        ".slds-form_horizontal"
-      ]
-    },
-    [
-      ".slds-hyphenate",
-      ".slds-truncate_container_66",
-      "[class*='slds-text-link']"
-    ],
     css
   );
 });
@@ -67,7 +51,7 @@ it("has a normalize slice", () => {
 
 it("has a utils slice with a complex annotation", () => {
   const slicer = createSlicer(cache);
-  const result = slicer.utils(".slds-text-link");
+  const result = slicer.slice(".slds-text-link");
 
   expect(result).toMatch(".slds-text-link");
   expect(result).not.toMatch(".slds-hyphenate");
