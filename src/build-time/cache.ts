@@ -14,10 +14,12 @@ import { Cache, CacheItem } from '../types';
 
 import { getAllRulesFromCss, Rule } from './lib/parse-css';
 
+const extractTagsAndClassNames: Reducer = extractTags.concat(extractClassNames);
+
 // order matters
-const extractSelectorPartsAndAssociateCss: Reducer = extractSelectorsFromAtRuleAndRecurse
-  .concat(extractTags)
-  .concat(extractClassNames);
+const extractSelectorPartsAndAssociateCss: Reducer = extractSelectorsFromAtRuleAndRecurse(
+  extractTagsAndClassNames
+).concat(extractTagsAndClassNames);
 
 const mapSelectorsToMatchingCss = (rules: Rule[]): Cache =>
   Immutable.List(rules).reduce(

@@ -39,22 +39,14 @@ const extractClassNames: Reducer = reducer((acc, rule) => {
     : acc;
 });
 
-const extractSelectorsFromAtRuleAndRecurse: Reducer = reducer(
-  (acc, rule) =>
-    rule.type === 'atrule' && rule.rule.name === 'media'
-      ? (rule.rule.nodes || [])
-          .filter((n: Rule) => n.selector)
-          .reduce((a: Immutable.List<CacheItem>, subRule: Rule) => {
-            const classes = Immutable.Set(parseClassNames(subRule.selector));
-            return classes.count() > 0
-              ? a.push({
-                  selectors: classes.toArray(),
-                  css: rule.rule.toString(),
-                  type: 'atrule'
-                })
-              : a;
-          }, acc)
-      : acc
-);
+const extractSelectorsFromAtRuleAndRecurse = (recurse: Reducer): Reducer =>
+  reducer(
+    (acc, rule) =>
+      rule.type === 'atrule' && rule.rule.name === 'media'
+        ? (rule.rule.nodes || [])
+            .filter((n: Rule) => n.selector)
+            .reduce(recurse.run, acc)
+        : acc
+  );
 
 export { extractTags, extractClassNames, extractSelectorsFromAtRuleAndRecurse };

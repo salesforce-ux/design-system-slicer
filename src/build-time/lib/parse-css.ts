@@ -6,18 +6,12 @@ import postcss, {
   Result as PostCssResult
 } from 'postcss';
 
-type AtRuleAdapter = {
-  selector: string;
-  type: string;
-  rule: PostCssAtRule;
-};
-
 type Selector = string;
 
-type Rule = PostCssRule | AtRuleAdapter;
+type Rule = PostCssRule;
 
-function atRuleToRule(atrule: PostCssAtRule): AtRuleAdapter {
-  return { selector: '', type: 'atrule', rule: atrule };
+function atRuleToRule(atRule: PostCssAtRule): PostCssRule {
+  return Object.assign(atRule, { selector: '' });
 }
 
 function handleRule(
