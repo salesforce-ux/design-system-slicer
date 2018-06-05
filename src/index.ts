@@ -7,8 +7,8 @@ import cache from '../dist/cache.json';
 import ui from '@salesforce-ux/design-system/ui.json';
 
 import { Cache } from './types';
-import { Slicer, create as createSlicer } from './slicer';
-import { Util, create as createUtil } from './util';
+import { Slicer, create as createSlicer } from './run-time/slicer';
+import { Util, create as createUtil } from './run-time/util';
 
 export { createSlicer, createUtil };
 

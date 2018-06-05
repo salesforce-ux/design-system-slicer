@@ -9,15 +9,25 @@ import postcss, {
 type AtRuleAdapter = {
   selector: string;
   type: string;
-  rule: PostCssAtRule;
+  nodes: PostCssChildNode[] | undefined;
+  name: string;
+  toString: () => string;
 };
 
 type Selector = string;
 
 type Rule = PostCssRule | AtRuleAdapter;
 
-function atRuleToRule(atrule: PostCssAtRule): AtRuleAdapter {
-  return { selector: '', type: 'atrule', rule: atrule };
+function atRuleToRule(atRule: PostCssAtRule): AtRuleAdapter {
+  return {
+    selector: '',
+    type: 'atrule',
+    nodes: (atRule.nodes || []).map(n =>
+      Object.assign(n, { toString: () => atRule.toString() })
+    ),
+    name: atRule.name,
+    toString: () => atRule.toString()
+  };
 }
 
 function handleRule(
