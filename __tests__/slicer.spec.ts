@@ -49,6 +49,16 @@ it("has a normalize slice", () => {
   expect(result).not.toMatch(".slds");
 });
 
+it("has a scoped normalize slice", () => {
+  const slicer = createSlicer(cache);
+  const result = slicer.normalize("h1", "p");
+
+  expect(result).toMatch("h1");
+  expect(result).toMatch("p");
+  expect(result).not.toMatch("h2");
+  expect(result).not.toMatch(".slds");
+});
+
 it("has a utils slice with a complex annotation", () => {
   const slicer = createSlicer(cache);
   const result = slicer.slice(".slds-text-link");

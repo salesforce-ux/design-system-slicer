@@ -8,7 +8,7 @@ import { uniq, intersectionBy } from './lib/set-fns';
 export type Css = string;
 export type Slicer = {
   slice: (...selectors: string[]) => Css;
-  normalize: () => Css;
+  normalize: (...elements: string[]) => Css;
 };
 
 const sliceFor = (cache: Cache, ...passedInSelectors: string[]): Css =>
@@ -24,9 +24,11 @@ const sliceFor = (cache: Cache, ...passedInSelectors: string[]): Css =>
 
 export const create = (cache: Cache): Slicer => ({
   slice: (...selectors: string[]): Css => sliceFor(cache, ...selectors),
-  normalize: () =>
-    cache
-      .filter(k => k.type === 'html')
-      .map(x => x.css)
-      .join('\n')
+  normalize: (...elements: string[]): Css =>
+    elements.length > 0
+      ? sliceFor(cache, ...elements)
+      : cache
+          .filter(k => k.type === 'html')
+          .map(x => x.css)
+          .join('\n')
 });
