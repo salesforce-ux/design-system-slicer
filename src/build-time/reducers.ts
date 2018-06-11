@@ -1,6 +1,4 @@
 import Immutable from 'immutable';
-
-import { CacheBuildState, CacheItem } from '../types';
 import escapeRegExp from 'lodash.escaperegexp';
 
 import {
@@ -21,10 +19,26 @@ const reducer = (run: ReducingFn): Reducer => ({
   concat: other => reducer((acc, rule) => other.run(run(acc, rule), rule))
 });
 
+const associateAnimations = (animations: Rule[], css: string) =>
+  animations.reduce(
+    reducer(
+      (acc, rule) =>
+        css.indexOf(rule.selector) > -1 ? (acc += rule.toString()) : acc
+    ).run,
+    css
+  );
+
 const extractTags: Reducer = reducer((acc, rule) => {
   const tags = Immutable.Set(parseTagNames(rule.selector));
   return tags.count() > 0
-    ? acc.push({ selectors: tags, css: rule.toString(), type: 'html' })
+    ? acc.push({
+        selectors: tags,
+        css: associateAnimations(
+          acc.filter((r: Rule) => r.type === 'animation'),
+          rule.toString()
+        ),
+        type: 'html'
+      })
     : acc;
 });
 
@@ -33,20 +47,34 @@ const extractClassNames: Reducer = reducer((acc, rule) => {
   return classes.count() > 0
     ? acc.push({
         selectors: classes.toArray(),
-        css: rule.toString(),
+        css: associateAnimations(
+          acc.filter((r: Rule) => r.type === 'animation'),
+          rule.toString()
+        ),
         type: 'className'
       })
     : acc;
 });
 
-const extractSelectorsFromAtRuleAndRecurse = (recurse: Reducer): Reducer =>
-  reducer(
-    (acc, rule) =>
-      rule.type === 'atrule' && rule.name === 'media'
-        ? (rule.nodes || [])
-            .filter((n: Rule) => n.selector)
-            .reduce(recurse.run, acc)
-        : acc
-  );
+const extractAnimations: Reducer = reducer(
+  (acc, rule) =>
+    rule.type === 'animation' && rule.name === 'keyframes'
+      ? acc.push(rule)
+      : acc
+);
 
-export { extractTags, extractClassNames, extractSelectorsFromAtRuleAndRecurse };
+const extractSelectorsFromAtRuleAndRecurse = (recurse: Reducer): Reducer =>
+  reducer((acc, rule) => {
+    return rule.type === 'atrule' && rule.name === 'media'
+      ? (rule.nodes || [])
+          .filter((n: Rule) => n.selector)
+          .reduce(recurse.run, acc)
+      : acc;
+  });
+
+export {
+  extractTags,
+  extractClassNames,
+  extractSelectorsFromAtRuleAndRecurse,
+  extractAnimations
+};

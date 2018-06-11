@@ -20,11 +20,14 @@ type Rule = PostCssRule | AtRuleAdapter;
 
 function atRuleToRule(atRule: PostCssAtRule): AtRuleAdapter {
   return {
-    selector: '',
-    type: 'atrule',
-    nodes: (atRule.nodes || []).map(n =>
-      Object.assign(n, { toString: () => atRule.toString() })
-    ),
+    selector: atRule.name === 'keyframes' ? atRule.params : '',
+    type: atRule.name === 'keyframes' ? 'animation' : 'atrule',
+    nodes:
+      atRule.name === 'keyframes'
+        ? []
+        : (atRule.nodes || []).map(n =>
+            Object.assign(n, { toString: () => atRule.toString() })
+          ),
     name: atRule.name,
     toString: () => atRule.toString()
   };
