@@ -7,17 +7,6 @@ const { util, slicer } = require("./dist/design-system-slicer.umd.js");
 const smoosh = xss => xss.reduce((acc, x) => acc.concat(x), []);
 const uniq = xs => [...new Set(xs)];
 
-const rejectElementsNotFoundInSingletons = xss =>
-  xss.map(
-    (xs, i) =>
-      xs.length > 1
-        ? xs.filter(x => xss.some((ys, j) => j != i && ys.some(y => y === x)))
-        : xs
-  );
-
-const filterUnusedComponents = x =>
-  uniq(smoosh(rejectElementsNotFoundInSingletons(x)));
-
 let selectors = [
   ".slds-day",
   ".slds-button_neutral",
@@ -38,7 +27,7 @@ let components = selectors.map(x => util.componentsForSelector(x));
 //     'visual-picker',
 //     'button-icons' ] ]
 
-const cleanComps = filterUnusedComponents(components);
+const cleanComps = uniq(smoosh(components.filter(c => c.length === 1)))
 // => ['datepickers', 'buttons']
 
 const allSelectors = cleanComps.reduce(
