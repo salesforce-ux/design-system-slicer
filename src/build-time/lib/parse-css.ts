@@ -83,7 +83,7 @@ const extractMatchesFromSelector = (
   );
 
 const classNameRegex = /(\.[a-zA-Z\-\_\d]+)/;
-const tagNameRegex = /^([A-Za-z]+[^\W])/;
+const tagNameRegex = /^((?:[A-Za-z0-9\*]+)|(?:\:+[a-zA-Z\-\_\d]+)[^\W.]*)/;
 
 const parseClassNames = (selector: Selector): Set<Selector> =>
   extractMatchesFromSelector(selector, classNameRegex);

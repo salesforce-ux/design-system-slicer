@@ -23,20 +23,28 @@ const associateAnimations = (animations: Rule[], css: string) =>
   animations.reduce(
     reducer(
       (acc, rule) =>
-        css.indexOf(rule.selector) > -1 ? (acc += rule.toString()) : acc
+        css.match(`animation: ${rule.selector}`) ||
+        css.match(`animation-name: ${rule.selector}`)
+          ? (acc += rule.toString())
+          : acc
     ).run,
     css
   );
 
+const tagNameEqualsAnimationName = (tagName: string, animationRules: Rule[]) =>
+  tagName === 'to' ||
+  tagName === 'slds' ||
+  animationRules.some(rule => rule.selector === tagName);
+
 const extractTags: Reducer = reducer((acc, rule) => {
-  const tags = Immutable.Set(parseTagNames(rule.selector));
+  const animationRules = acc.filter((r: Rule) => r.type === 'animation');
+  const tags = Immutable.Set(parseTagNames(rule.selector)).filter(
+    tagName => !tagNameEqualsAnimationName(tagName, animationRules)
+  );
   return tags.count() > 0
     ? acc.push({
         selectors: tags,
-        css: associateAnimations(
-          acc.filter((r: Rule) => r.type === 'animation'),
-          rule.toString()
-        ),
+        css: associateAnimations(animationRules, rule.toString()),
         type: 'html'
       })
     : acc;

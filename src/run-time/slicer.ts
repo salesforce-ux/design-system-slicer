@@ -11,24 +11,34 @@ export type Slicer = {
   normalize: (...elements: string[]) => Css;
 };
 
-const sliceFor = (cache: Cache, ...passedInSelectors: string[]): Css =>
+const ruleDoesNotContainSelectorWithClassName = (rule: CacheItem) =>
+  rule.selectors.some(
+    selector => !rule.css.match(RegExp('\\' + selector + '.[a-zA-Z-_d]+'))
+  );
+
+const sliceFor = (cache: Cache, ...passedInSelectors: string[]): CacheItem[] =>
   uniq(
-    cache
-      .filter(slice =>
-        intersectionBy(slice.selectors, passedInSelectors, (sel, key) =>
-          sel.startsWith(key)
-        )
+    cache.filter(slice =>
+      intersectionBy(slice.selectors, passedInSelectors, (sel, key) =>
+        sel.startsWith(key)
       )
-      .map(slice => slice.css)
-  ).join('\n');
+    )
+  );
 
 export const create = (cache: Cache): Slicer => ({
-  slice: (...selectors: string[]): Css => sliceFor(cache, ...selectors),
+  slice: (...selectors: string[]): Css =>
+    sliceFor(cache, ...selectors)
+      .map(rule => rule.css)
+      .join('\n'),
   normalize: (...elements: string[]): Css =>
     elements.length > 0
       ? sliceFor(cache, ...elements)
+          .filter(ruleDoesNotContainSelectorWithClassName)
+          .map(rule => rule.css)
+          .join('\n')
       : cache
           .filter(k => k.type === 'html')
-          .map(x => x.css)
+          .filter(ruleDoesNotContainSelectorWithClassName)
+          .map(rule => rule.css)
           .join('\n')
 });
