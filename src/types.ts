@@ -6,6 +6,7 @@ export type Cache = CacheItem[];
 
 export interface CacheItem {
   selectors: string[];
+  relatedSelectors: string[];
   type: string;
   css: string;
 }

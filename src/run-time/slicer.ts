@@ -2,7 +2,6 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 import { Cache, CacheItem, Selector } from '../types';
-
 import { uniq, intersectionBy } from './lib/set-fns';
 
 export type Css = string;
@@ -16,6 +15,32 @@ const ruleDoesNotContainSelectorWithClassName = (rule: CacheItem) =>
     selector => !rule.css.match(RegExp('\\' + selector + '.[a-zA-Z-_d]+'))
   );
 
+const sliceForAndAssociateAnimations = (
+  cache: Cache,
+  ...passedInSelectors: string[]
+): CacheItem[] => {
+  let rules = sliceFor(cache, ...passedInSelectors);
+  return rules.reduce(
+    (acc, rule) =>
+      acc.concat(associateAnimations(cache, rule.relatedSelectors)),
+    rules
+  );
+};
+
+const associateAnimations = (
+  cache: Cache,
+  passedInSelectors: string[]
+): CacheItem[] =>
+  uniq(
+    cache
+      .filter(slice => slice.type === 'animation')
+      .filter(slice =>
+        intersectionBy(slice.selectors, passedInSelectors, (sel, key) =>
+          sel.startsWith(key)
+        )
+      )
+  );
+
 const sliceFor = (cache: Cache, ...passedInSelectors: string[]): CacheItem[] =>
   uniq(
     cache.filter(slice =>
@@ -27,12 +52,12 @@ const sliceFor = (cache: Cache, ...passedInSelectors: string[]): CacheItem[] =>
 
 export const create = (cache: Cache): Slicer => ({
   slice: (...selectors: string[]): Css =>
-    sliceFor(cache, ...selectors)
+    sliceForAndAssociateAnimations(cache, ...selectors)
       .map(rule => rule.css)
       .join('\n'),
   normalize: (...elements: string[]): Css =>
     elements.length > 0
-      ? sliceFor(cache, ...elements)
+      ? sliceForAndAssociateAnimations(cache, ...elements)
           .filter(ruleDoesNotContainSelectorWithClassName)
           .map(rule => rule.css)
           .join('\n')

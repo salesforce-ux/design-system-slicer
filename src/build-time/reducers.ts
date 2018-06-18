@@ -8,6 +8,8 @@ import {
   Selector
 } from './lib/parse-css';
 
+import { CacheItem } from '../types';
+
 export type ReducingFn<S = any> = (state: S, value: any) => S;
 
 export type Semigroup<S = any> = (x: S) => S;
@@ -19,22 +21,27 @@ const reducer = (run: ReducingFn): Reducer => ({
   concat: other => reducer((acc, rule) => other.run(run(acc, rule), rule))
 });
 
-const associateAnimations = (animations: Rule[], css: string) =>
-  animations.reduce(
-    reducer(
-      (acc, rule) =>
-        css.match(`animation: ${rule.selector}`) ||
-        css.match(`animation-name: ${rule.selector}`)
-          ? (acc += rule.toString())
-          : acc
-    ).run,
-    css
-  );
+const getAnimationsForCSS = (animationRules: CacheItem[], css: string) =>
+  animationRules
+    .filter(animationRule =>
+      animationRule.selectors.some(
+        selector =>
+          !!css.match(
+            RegExp('(?:animation: |animation-name: )' + selector + '[; ]')
+          )
+      )
+    )
+    .map(animationRule => animationRule.selectors[0]);
 
-const tagNameEqualsAnimationName = (tagName: string, animationRules: Rule[]) =>
+const tagNameEqualsAnimationName = (
+  tagName: string,
+  animationRules: CacheItem[]
+) =>
   tagName === 'to' ||
   tagName === 'slds' ||
-  animationRules.some(rule => rule.selector === tagName);
+  animationRules.some(rule =>
+    rule.selectors.some(selector => selector === tagName)
+  );
 
 const extractTags: Reducer = reducer((acc, rule) => {
   const animationRules = acc.filter((r: Rule) => r.type === 'animation');
@@ -44,8 +51,9 @@ const extractTags: Reducer = reducer((acc, rule) => {
   return tags.count() > 0
     ? acc.push({
         selectors: tags,
-        css: associateAnimations(animationRules, rule.toString()),
-        type: 'html'
+        css: rule.toString(),
+        type: 'html',
+        relatedSelectors: getAnimationsForCSS(animationRules, rule.toString())
       })
     : acc;
 });
@@ -55,11 +63,12 @@ const extractClassNames: Reducer = reducer((acc, rule) => {
   return classes.count() > 0
     ? acc.push({
         selectors: classes.toArray(),
-        css: associateAnimations(
+        css: rule.toString(),
+        type: 'className',
+        relatedSelectors: getAnimationsForCSS(
           acc.filter((r: Rule) => r.type === 'animation'),
           rule.toString()
-        ),
-        type: 'className'
+        )
       })
     : acc;
 });
@@ -67,7 +76,11 @@ const extractClassNames: Reducer = reducer((acc, rule) => {
 const extractAnimations: Reducer = reducer(
   (acc, rule) =>
     rule.type === 'animation' && rule.name === 'keyframes'
-      ? acc.push(rule)
+      ? acc.push({
+          selectors: [rule.selector],
+          css: rule.toString(),
+          type: rule.type
+        })
       : acc
 );
 
