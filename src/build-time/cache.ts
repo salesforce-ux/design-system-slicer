@@ -7,7 +7,8 @@ import {
   Reducer,
   extractTags,
   extractClassNames,
-  extractSelectorsFromAtRuleAndRecurse
+  extractSelectorsFromAtRuleAndRecurse,
+  extractAnimations
 } from './reducers';
 
 import { Cache, CacheItem } from '../types';
@@ -21,11 +22,17 @@ const extractSelectorPartsAndAssociateCss: Reducer = extractSelectorsFromAtRuleA
   extractTagsAndClassNames
 ).concat(extractTagsAndClassNames);
 
-const mapSelectorsToMatchingCss = (rules: Rule[]): Cache =>
-  Immutable.List(rules).reduce(
-    extractSelectorPartsAndAssociateCss.run,
+const mapSelectorsToMatchingCss = (rules: Rule[]): Cache => {
+  const acc = Immutable.List(rules).reduce(
+    extractAnimations.run,
     Immutable.List()
   );
+
+  return Immutable.List(rules).reduce(
+    extractSelectorPartsAndAssociateCss.run,
+    acc
+  );
+};
 
 export const create = (css: string): Promise<Cache> =>
   getAllRulesFromCss(css).then(mapSelectorsToMatchingCss);

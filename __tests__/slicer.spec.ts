@@ -69,6 +69,13 @@ it("has a utils slice with a complex annotation", () => {
   expect(result).not.toMatch(".slds-button");
 });
 
+it("associates animation keyframes", () => {
+  const slicer = createSlicer(cache);
+  const result = slicer.slice(".slds-icon-ellie");
+  expect(result).toMatch(".slds-icon-ellie");
+  expect(result).toMatch("slds-icon-ellie-pop");
+});
+
 it("has a utils slice", () => {
   const slicer = createSlicer(cache);
   const result = slicer.slice(".slds-truncate_container_66");
