@@ -19,35 +19,35 @@ const sliceForAndAssociateAnimations = (
   cache: Cache,
   ...passedInSelectors: string[]
 ): CacheItem[] => {
-  let rules = sliceFor(cache, ...passedInSelectors);
+  let rules = performSlice(cache, passedInSelectors);
   return rules.reduce(
     (acc, rule) =>
-      acc.concat(associateAnimations(cache, rule.relatedSelectors)),
+      rule.relatedSelectors
+        ? acc.concat(
+            performSlice(
+              cache,
+              rule.relatedSelectors,
+              slice => slice.type === 'animation'
+            )
+          )
+        : acc,
     rules
   );
 };
 
-const associateAnimations = (
+const performSlice = (
   cache: Cache,
-  passedInSelectors: string[]
+  passedInSelectors: string[],
+  filterFunction?: (slice: CacheItem) => boolean
 ): CacheItem[] =>
   uniq(
     cache
-      .filter(slice => slice.type === 'animation')
+      .filter(filterFunction ? filterFunction : slice => true)
       .filter(slice =>
         intersectionBy(slice.selectors, passedInSelectors, (sel, key) =>
           sel.startsWith(key)
         )
       )
-  );
-
-const sliceFor = (cache: Cache, ...passedInSelectors: string[]): CacheItem[] =>
-  uniq(
-    cache.filter(slice =>
-      intersectionBy(slice.selectors, passedInSelectors, (sel, key) =>
-        sel.startsWith(key)
-      )
-    )
   );
 
 export const create = (cache: Cache): Slicer => ({
